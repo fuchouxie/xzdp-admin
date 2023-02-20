@@ -240,7 +240,7 @@ func (t tbVoucherOrderDo) CreateInBatches(values []*entity.TbVoucherOrder, batch
 }
 
 // Save : !!! underlying implementation is different with GORM
-// The method is equivalent to executing the statement: myGrom.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
+// The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
 func (t tbVoucherOrderDo) Save(values ...*entity.TbVoucherOrder) error {
 	if len(values) == 0 {
 		return nil

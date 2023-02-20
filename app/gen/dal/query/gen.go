@@ -18,8 +18,10 @@ import (
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:             db,
+		AdminRole:      newAdminRole(db, opts...),
+		AdminUser:      newAdminUser(db, opts...),
+		AdminUserShop:  newAdminUserShop(db, opts...),
 		TbBlog:         newTbBlog(db, opts...),
-		TbBlogComment:  newTbBlogComment(db, opts...),
 		TbShop:         newTbShop(db, opts...),
 		TbUser:         newTbUser(db, opts...),
 		TbUserInfo:     newTbUserInfo(db, opts...),
@@ -31,8 +33,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
+	AdminRole      adminRole
+	AdminUser      adminUser
+	AdminUserShop  adminUserShop
 	TbBlog         tbBlog
-	TbBlogComment  tbBlogComment
 	TbShop         tbShop
 	TbUser         tbUser
 	TbUserInfo     tbUserInfo
@@ -45,8 +49,10 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:             db,
+		AdminRole:      q.AdminRole.clone(db),
+		AdminUser:      q.AdminUser.clone(db),
+		AdminUserShop:  q.AdminUserShop.clone(db),
 		TbBlog:         q.TbBlog.clone(db),
-		TbBlogComment:  q.TbBlogComment.clone(db),
 		TbShop:         q.TbShop.clone(db),
 		TbUser:         q.TbUser.clone(db),
 		TbUserInfo:     q.TbUserInfo.clone(db),
@@ -66,8 +72,10 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:             db,
+		AdminRole:      q.AdminRole.replaceDB(db),
+		AdminUser:      q.AdminUser.replaceDB(db),
+		AdminUserShop:  q.AdminUserShop.replaceDB(db),
 		TbBlog:         q.TbBlog.replaceDB(db),
-		TbBlogComment:  q.TbBlogComment.replaceDB(db),
 		TbShop:         q.TbShop.replaceDB(db),
 		TbUser:         q.TbUser.replaceDB(db),
 		TbUserInfo:     q.TbUserInfo.replaceDB(db),
@@ -77,8 +85,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 }
 
 type queryCtx struct {
+	AdminRole      *adminRoleDo
+	AdminUser      *adminUserDo
+	AdminUserShop  *adminUserShopDo
 	TbBlog         *tbBlogDo
-	TbBlogComment  *tbBlogCommentDo
 	TbShop         *tbShopDo
 	TbUser         *tbUserDo
 	TbUserInfo     *tbUserInfoDo
@@ -88,8 +98,10 @@ type queryCtx struct {
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
+		AdminRole:      q.AdminRole.WithContext(ctx),
+		AdminUser:      q.AdminUser.WithContext(ctx),
+		AdminUserShop:  q.AdminUserShop.WithContext(ctx),
 		TbBlog:         q.TbBlog.WithContext(ctx),
-		TbBlogComment:  q.TbBlogComment.WithContext(ctx),
 		TbShop:         q.TbShop.WithContext(ctx),
 		TbUser:         q.TbUser.WithContext(ctx),
 		TbUserInfo:     q.TbUserInfo.WithContext(ctx),
