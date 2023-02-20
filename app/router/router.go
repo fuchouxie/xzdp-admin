@@ -40,7 +40,7 @@ func setupShopRouter(e *gin.Engine) {
 }
 
 // 注册路由函数
-// 以模块为单位将根路径以及控制器参数进行注册
+// 以模块为单位将根路径以及所需注册的控制
 func setupRouter(e *gin.Engine) {
 	storeController := new(controller.ShopController)
 	setupRouterOfController(e, "/shop/", storeController)
