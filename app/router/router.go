@@ -44,4 +44,6 @@ func setupShopRouter(e *gin.Engine) {
 func setupRouter(e *gin.Engine) {
 	storeController := new(controller.ShopController)
 	setupRouterOfController(e, "/shop/", storeController)
+	adminController := new(controller.AdminController)
+	setupRouterOfController(e, "/user/", adminController)
 }
