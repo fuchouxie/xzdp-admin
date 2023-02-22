@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+   <nx-github-corner></nx-github-corner>
      <!-- <a target="_blank" href="https://github.com/mgbq/vue-permission"><img
         style="position: absolute; top: 48px; right: 0; border: 0;"
         src="../../../static/img/report/forkme.png"

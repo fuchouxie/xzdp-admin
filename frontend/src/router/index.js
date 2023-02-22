@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// consts _import = require('./_import_' + process.env.NODE_ENV)
+// const _import = require('./_import_' + process.env.NODE_ENV)
 // in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
 // detail: https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
 
@@ -23,125 +23,152 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/login',
-  //   name: 'login',
-  //   hidden: true
-  // },
   {
     path: '',
     component: Layout,
-    redirect: '/dashboard/dashboard'
+    redirect: '/dashboard/dashboard'//默认页
   },
   { path: '/login', component: () => import('@/views/login'), name: '登录NxAdmin', hidden: true },
   { path: '/404', component: () => import('@/views/errorPage/404'), hidden: true },
   { path: '/401', component: () => import('@/views/errorPage/401'), hidden: true },
-
   // 报表
   {
     path: '/dashboard',
     component: Layout,
-    meta: { title: 'dashboard', icon: 'dashboard' },
+    meta: { title: '首页', icon: 'dashboard' },
     children: [
       {
         path: 'dashboard',
         name: 'dashboard',
         component: () => import('@/views/dashboard/dashboard'),
-        meta: { title: 'dashboard', icon: 'dashboard' }
+        meta: { title: '首页', icon: 'dashboard' }
       }
     ]
   },
+  // 表格
   {
-    path: '/table',
+    path: '/shop',
     component: Layout,
-    redirect: '/table/ShopList',
+    redirect: '/shopList',
     name: 'shop',
-    hidden: false,
-    alwaysShow: true,
+    alwaysShow:true,
     meta: {
-      title: '商店管理',
+      title: '商户管理',
       icon: 'table'
     },
     children: [
       {
-        path: 'ShopList',
-        name: 'ShopList',
+        path: 'shopList',
+        name: 'shopList',
         component: () => import('@/views/table/complex-table'),
-        meta: { title: '商店列表' }
+        meta: { title: '商户列表' }
       },
       {
-        path: 'VoucherList',
-        name: 'VoucherList',
-        component: () => import('@/views/table/complex-table'),
-        meta: { title: '代金券管理' }
+        path: 'BaseForm',
+        name: 'BaseForm',
+        hidden: true, // 不在侧边栏线上
+        component: () => import('@/views/form/BaseForm'),
+        meta: { title: '修改商户' }
       }
     ]
   },
 
   {
-    path: '/table',
+    path: '/user',
     component: Layout,
-    redirect: '/table/BlogList',
-    name: 'blog',
-    hidden: false,
-    alwaysShow: true,
+    redirect: '/userList',
+    name: 'user',
+    alwaysShow:true,
     meta: {
-      title: '笔记管理',
+      title: '用户管理',
       icon: 'table'
     },
     children: [
       {
-        path: 'BlogList',
-        name: 'BlogList',
+        path: 'userList',
+        name: 'userList',
         component: () => import('@/views/table/complex-table'),
-        meta: { title: '笔记列表' }
+        meta: { title: '用户列表' }
       }
     ]
   },
-
   {
-    path: '/table',
+    path: '/order',
     component: Layout,
-    redirect: '/table/OrderList',
+    redirect: '/orderList',
     name: 'order',
-    hidden: false,
-    alwaysShow: true,
+    alwaysShow:true,
     meta: {
       title: '订单管理',
       icon: 'table'
     },
     children: [
       {
-        path: 'OrderList',
-        name: 'OrderList',
+        path: 'orderList',
+        name: 'orderList',
         component: () => import('@/views/table/complex-table'),
         meta: { title: '订单列表' }
       }
     ]
   },
-
   {
-    path: '/table',
+    path: '/blog',
     component: Layout,
-    redirect: '/table/UserList',
-    name: 'user',
-    hidden: false,
-    alwaysShow: true,
+    redirect: '/blogList',
+    name: 'blog',
+    alwaysShow:true,
     meta: {
-      title: '权限管理',
+      title: '笔记管理',
       icon: 'table'
     },
     children: [
       {
-        path: 'UserList',
-        name: 'UserList',
+        path: 'blogList',
+        name: 'blogList',
         component: () => import('@/views/table/complex-table'),
-        meta: { title: '用户列表' }
+        meta: { title: '笔记列表' }
       }
     ]
-  }
+  },
+  {
+    path: '/admin',
+    component: Layout,
+    redirect: '/adminList',
+    name: 'admin',
+    alwaysShow:true,
+    meta: {
+      title: '系统管理',
+      icon: 'table'
+    },
+    children: [
+      {
+        path: 'adminList',
+        name: 'adminList',
+        component: () => import('@/views/table/complex-table'),
+        meta: { title: '管理员列表' }
+      }
+    ]
+  },
+  {
+    path: '/self',
+    component: Layout,
+    redirect: '/updatePwd',
+    name: 'self',
+    alwaysShow:true,
+    meta: {
+      title: '个人中心',
+      icon: 'table'
+    },
+    children: [
+      {
+        path: 'updatePwd',
+        name: 'updatePwd',
+        component: () => import('@/views/form/BaseForm'),
+        meta: { title: '修改密码' }
+      }
+    ]
+  },
+
 ]
 
 export default new Router({
@@ -149,5 +176,4 @@ export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
-export const asyncRouterMap = [
-]
+export const asyncRouterMap = []

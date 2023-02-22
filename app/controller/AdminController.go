@@ -24,3 +24,7 @@ func (c *AdminController) Login(ctx *gin.Context) {
 	}
 	myGin.Success(ctx, res)
 }
+
+func (c *AdminController) Logout(ctx *gin.Context) {
+	myGin.Success(ctx, nil)
+}

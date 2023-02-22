@@ -18,7 +18,7 @@ export default {
   components: { nxIcon },
   data() {
     return {
-      url: 'https://github.com/mgbq/nxAdmin-template/'
+      url: 'https://github.com/mgbq/nx-admin'
     }
   },
   methods: {

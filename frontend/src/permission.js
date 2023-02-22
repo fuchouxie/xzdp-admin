@@ -18,12 +18,21 @@ const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
+    // 设置浏览器头部标题
+    const browserHeaderTitle = to.name
+    store.commit('SET_BROWSERHEADERTITLE', {
+      browserHeaderTitle: browserHeaderTitle
+    })
     /* has token*/
-    if (to.path === '/login') {
+    if (store.getters.isLock && to.path !== '/lock') {
+      next({
+        path: '/lock'
+      })
+      NProgress.done()
+    } else if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
-      next()
       // if (store.getters.roles.length === 0) {
       //   store.dispatch('GetInfo').then(res => { // 拉取用户信息
       //     const roles = res.roles // note: roles must be a array! such as: ['editor','develop']
@@ -45,8 +54,14 @@ router.beforeEach((to, from, next) => {
       //     next({ path: '/401', replace: true, query: { noGoBack: true }})
       //   }
       // }
+      next()
     }
   } else {
+    // 设置浏览器头部标题
+    const browserHeaderTitle = to.name
+    store.commit('SET_BROWSERHEADERTITLE', {
+      browserHeaderTitle: browserHeaderTitle
+    })
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {

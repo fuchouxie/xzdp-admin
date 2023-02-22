@@ -12,6 +12,7 @@ export default {
     Default: 'Default'
   },
   route: {
+    AliIcons: 'AliIcons',
     list: 'list',
     Digitalanimation: 'Digitalanimation',
     Rollingpositioning: 'Rollingpositioning',
@@ -77,16 +78,24 @@ export default {
     uploadExcel: 'Upload Excel',
     zip: 'Zip',
     exportZip: 'Export Zip',
-    i18n: 'i18n'
+    i18n: 'i18n',
+    Errorlog: 'Errorlog',
+    svgicons: 'svgicons',
+    fontawesome: 'fontawesome',
+    pointMap: 'pointMap',
+    roadBookMap: 'roadBookMap',
+    cityLlistMap: 'cityLlistMap',
+    baidumap: 'baidumap',
+    gpsMap: 'gpsMap'
   },
   excel: {
     export: 'Export',
     selectedExport: 'Export selected items',
-    placeholder: 'Please enter the config name(default excel-list)'
+    placeholder: 'Please enter the file name(default excel-list)'
   },
   zip: {
     export: 'Export',
-    placeholder: 'Please enter the config name(default config)'
+    placeholder: 'Please enter the file name(default file)'
   },
   permission: {
     roles: 'Your roles',
@@ -105,5 +114,10 @@ export default {
     close: 'Close',
     closeOthers: 'Close Others',
     closeAll: 'Close All'
+  },
+  errorLog: {
+    tips: 'tips',
+    description: 'description',
+    documentation: 'documentation'
   }
 }

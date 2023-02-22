@@ -45,7 +45,7 @@ module.exports = {
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: false,
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -77,13 +77,6 @@ module.exports = {
     }
   },
   chainWebpack(config) {
-    // config.module
-    //   .rule('cache-loader')
-    //   .test(/\.ext$/)
-    //   .use('cache-loader')
-    //   .loader('cache-loader')
-    //   .end()
-
     // set svg-sprite-loader
     config.module
       .rule('svg')
@@ -100,7 +93,6 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
       .end()
-
     // set preserveWhitespace
     config.module
       .rule('vue')
@@ -154,4 +146,3 @@ module.exports = {
     })
   }
 }
-
