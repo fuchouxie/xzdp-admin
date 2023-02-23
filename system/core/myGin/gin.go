@@ -2,7 +2,9 @@ package myGin
 
 import (
 	"github.com/gin-gonic/gin"
+	"io"
 	"net/http"
+	"os"
 	"xzdp-admin/system/code"
 	"xzdp-admin/system/utils/config"
 )
@@ -17,6 +19,11 @@ var myEngine *gin.Engine
 
 // 初始化
 func InitGin() *gin.Engine {
+
+	file, _ := os.Create("./logs/web.log")
+	gin.DefaultWriter = io.MultiWriter(file)
+	//日志同时输出到控制台
+	gin.DefaultWriter = io.MultiWriter(file, os.Stdout)
 	myEngine = gin.Default()
 	return myEngine
 }

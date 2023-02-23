@@ -8,7 +8,7 @@ import (
 )
 
 type AdminController struct {
-	AdminService service.AdminService
+	AdminService *service.AdminService
 }
 
 func (c *AdminController) Login(ctx *gin.Context) {
@@ -26,5 +26,19 @@ func (c *AdminController) Login(ctx *gin.Context) {
 }
 
 func (c *AdminController) Logout(ctx *gin.Context) {
+	myGin.Success(ctx, nil)
+}
+
+func (c *AdminController) Register(ctx *gin.Context) {
+	var req dto.RegisterReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	err := c.AdminService.Register(req)
+	if err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
 	myGin.Success(ctx, nil)
 }

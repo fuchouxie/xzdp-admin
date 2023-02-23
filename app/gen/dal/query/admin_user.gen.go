@@ -30,8 +30,10 @@ func newAdminUser(db *gorm.DB, opts ...gen.DOOption) adminUser {
 	_adminUser.ID = field.NewInt32(tableName, "id")
 	_adminUser.Username = field.NewString(tableName, "username")
 	_adminUser.Password = field.NewString(tableName, "password")
-	_adminUser.Mobile = field.NewString(tableName, "mobile")
+	_adminUser.Phone = field.NewString(tableName, "phone")
 	_adminUser.RoleID = field.NewInt32(tableName, "role_id")
+	_adminUser.Name = field.NewString(tableName, "name")
+	_adminUser.Remark = field.NewString(tableName, "remark")
 	_adminUser.CreatedAt = field.NewTime(tableName, "created_at")
 	_adminUser.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_adminUser.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -48,8 +50,10 @@ type adminUser struct {
 	ID        field.Int32
 	Username  field.String // 用户名
 	Password  field.String // 密码
-	Mobile    field.String // 手机号
+	Phone     field.String // 手机号
 	RoleID    field.Int32  // 角色id
+	Name      field.String // 姓名
+	Remark    field.String // 备注
 	CreatedAt field.Time
 	UpdatedAt field.Time
 	DeletedAt field.Field
@@ -72,8 +76,10 @@ func (a *adminUser) updateTableName(table string) *adminUser {
 	a.ID = field.NewInt32(table, "id")
 	a.Username = field.NewString(table, "username")
 	a.Password = field.NewString(table, "password")
-	a.Mobile = field.NewString(table, "mobile")
+	a.Phone = field.NewString(table, "phone")
 	a.RoleID = field.NewInt32(table, "role_id")
+	a.Name = field.NewString(table, "name")
+	a.Remark = field.NewString(table, "remark")
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
@@ -101,12 +107,14 @@ func (a *adminUser) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *adminUser) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 8)
+	a.fieldMap = make(map[string]field.Expr, 10)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["username"] = a.Username
 	a.fieldMap["password"] = a.Password
-	a.fieldMap["mobile"] = a.Mobile
+	a.fieldMap["phone"] = a.Phone
 	a.fieldMap["role_id"] = a.RoleID
+	a.fieldMap["name"] = a.Name
+	a.fieldMap["remark"] = a.Remark
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt

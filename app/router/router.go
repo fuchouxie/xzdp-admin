@@ -13,14 +13,13 @@ func InitRouter(e *gin.Engine) {
 func setupRouterOfFunc(e *gin.Engine, routerPath string, handler gin.HandlerFunc) {
 	e.GET(routerPath, handler)
 	e.POST(routerPath, handler)
-
 }
 func setupRouterOfController(e *gin.Engine, routerPath string, ctrl interface{}) {
 	v := reflect.ValueOf(ctrl)
 	t := reflect.TypeOf(ctrl)
 	for i := 0; i < v.NumMethod(); i++ {
 		fn := t.Method(i).Name
-		if fc, ok := v.Method(0).Interface().(func(ctx *gin.Context)); ok {
+		if fc, ok := v.Method(i).Interface().(func(ctx *gin.Context)); ok {
 			e.GET(routerPath+fn, fc)
 			e.POST(routerPath+fn, fc)
 		}

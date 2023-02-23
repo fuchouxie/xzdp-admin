@@ -17,8 +17,10 @@ type AdminUser struct {
 	ID        int32          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	Username  string         `gorm:"column:username;not null" json:"username"` // 用户名
 	Password  string         `gorm:"column:password;not null" json:"password"` // 密码
-	Mobile    string         `gorm:"column:mobile" json:"mobile"`              // 手机号
+	Phone     string         `gorm:"column:phone" json:"phone"`                // 手机号
 	RoleID    int32          `gorm:"column:role_id;not null" json:"role_id"`   // 角色id
+	Name      string         `gorm:"column:name;not null" json:"name"`         // 姓名
+	Remark    string         `gorm:"column:remark;not null" json:"remark"`     // 备注
 	CreatedAt time.Time      `gorm:"column:created_at;not null" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
