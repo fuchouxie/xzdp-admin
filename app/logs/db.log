@@ -1,0 +1,21 @@
+
+2023/02/23 11:51:07 C:/Users/14426/GolandProjects/xzdp-admin/app/service/AdminService.go:35
+[31.925ms] [rows:1] SELECT * FROM `admin_user` WHERE `username` = 'xf1c' AND `admin_user`.`deleted_at` IS NULL
+
+2023/02/23 11:51:39 C:/Users/14426/GolandProjects/xzdp-admin/app/service/AdminService.go:18
+[0.000ms] [rows:1] SELECT * FROM `admin_user` WHERE `username` = 'xfc' AND `admin_user`.`deleted_at` IS NULL
+
+2023/02/23 11:51:43 C:/Users/14426/GolandProjects/xzdp-admin/app/service/AdminService.go:18
+[0.000ms] [rows:1] SELECT * FROM `admin_user` WHERE `username` = 'xfc' AND `admin_user`.`deleted_at` IS NULL
+
+2023/02/23 11:51:47 C:/Users/14426/GolandProjects/xzdp-admin/app/service/AdminService.go:18
+[0.984ms] [rows:1] SELECT * FROM `admin_user` WHERE `username` = 'xfc' AND `admin_user`.`deleted_at` IS NULL
+
+2023/02/23 11:52:00 C:/Users/14426/GolandProjects/xzdp-admin/app/service/AdminService.go:35
+[0.614ms] [rows:1] SELECT * FROM `admin_user` WHERE `username` = 'xfc' AND `admin_user`.`deleted_at` IS NULL
+
+2023/02/23 11:52:03 C:/Users/14426/GolandProjects/xzdp-admin/app/service/AdminService.go:35
+[0.000ms] [rows:0] SELECT * FROM `admin_user` WHERE `username` = 'xfc1' AND `admin_user`.`deleted_at` IS NULL
+
+2023/02/23 11:52:03 C:/Users/14426/GolandProjects/xzdp-admin/app/service/AdminService.go:48
+[2.035ms] [rows:1] INSERT INTO `admin_user` (`username`,`password`,`phone`,`role_id`,`name`,`remark`,`created_at`,`updated_at`,`deleted_at`) VALUES ('xfc1','$2a$10$xpmNSSfHvltE.TuZG59CXeBzsO2NnjnCCe56JZ7XJzaITo.2VyPji','15018384189',2,'谢富畴','超级管理员','2023-02-23 11:52:03.564','2023-02-23 11:52:03.564',NULL)

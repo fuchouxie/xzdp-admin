@@ -1,0 +1,23 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /shop/ShopList            --> reflect.methodValueCall (3 handlers)
+[GIN-debug] POST   /shop/ShopList            --> reflect.methodValueCall (3 handlers)
+[GIN-debug] GET    /user/Login               --> reflect.methodValueCall (3 handlers)
+[GIN-debug] POST   /user/Login               --> reflect.methodValueCall (3 handlers)
+[GIN-debug] GET    /user/Logout              --> reflect.methodValueCall (3 handlers)
+[GIN-debug] POST   /user/Logout              --> reflect.methodValueCall (3 handlers)
+[GIN-debug] GET    /user/Register            --> reflect.methodValueCall (3 handlers)
+[GIN-debug] POST   /user/Register            --> reflect.methodValueCall (3 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :10001
+[GIN] 2023/02/23 - 11:51:07 | 200 |     32.4934ms |             ::1 | POST     "/user/Register"
+[GIN] 2023/02/23 - 11:51:39 | 200 |     58.5906ms |             ::1 | POST     "/user/Login"
+[GIN] 2023/02/23 - 11:51:43 | 200 |     60.6604ms |             ::1 | POST     "/user/Login"
+[GIN] 2023/02/23 - 11:51:47 | 200 |     58.0393ms |             ::1 | POST     "/user/Login"
+[GIN] 2023/02/23 - 11:52:00 | 200 |         614µs |             ::1 | POST     "/user/Register"
+[GIN] 2023/02/23 - 11:52:03 | 200 |      61.828ms |             ::1 | POST     "/user/Register"
