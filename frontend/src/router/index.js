@@ -144,7 +144,7 @@ export const constantRouterMap = [
       {
         path: 'adminList',
         name: 'adminList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/admin-management/admin-list'),
         meta: { title: '管理员列表' }
       }
     ]
