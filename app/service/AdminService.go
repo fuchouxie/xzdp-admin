@@ -117,3 +117,20 @@ func (s *AdminService) ChangePassword(input dto.ChangePasswordReq) error {
 	}
 	return nil
 }
+
+func (s *AdminService) Remove(input dto.RemoveReq) error {
+	db := myGrom.Db
+	if err := db.Model(&entity.AdminUser{}).Delete("id", input.ID).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *AdminService) BatchRemove(input dto.BatchRemoveReq) error {
+	db := myGrom.Db
+	ids := str.IntStrToArray(input.IDS, ",")
+	if err := db.Where("id", ids).Delete(&entity.AdminUser{}).Error; err != nil {
+		return err
+	}
+	return nil
+}

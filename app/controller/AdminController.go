@@ -88,3 +88,31 @@ func (c *AdminController) ChangePassword(ctx *gin.Context) {
 	}
 	myGin.Success(ctx, nil)
 }
+
+func (c *AdminController) Remove(ctx *gin.Context) {
+	var req dto.RemoveReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	err := c.AdminService.Remove(req)
+	if err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	myGin.Success(ctx, nil)
+}
+
+func (c *AdminController) BatchRemove(ctx *gin.Context) {
+	var req dto.BatchRemoveReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	err := c.AdminService.BatchRemove(req)
+	if err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	myGin.Success(ctx, nil)
+}

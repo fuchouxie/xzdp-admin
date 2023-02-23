@@ -77,9 +77,9 @@
           <el-input v-model="editForm.phone" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="角色">
-          <el-radio-group v-model="editForm.sex">
-            <el-radio class="radio" :label=1>超级管理员</el-radio>
-            <el-radio class="radio" :label=2>运营管理员</el-radio>
+          <el-radio-group v-model="editForm.role_id">
+            <el-radio class="radio" :label=1 value="1">超级管理员</el-radio>
+            <el-radio class="radio" :label=2 value="2">运营管理员</el-radio>
           </el-radio-group>
         </el-form-item>
 			</el-form>
@@ -96,10 +96,10 @@
 import util from '@/utils/table.js'
 import {
   getAdminList,
-  removeUser,
-  batchRemoveUser,
-  editUser,
-  addUser
+  removeAdminUser,
+  batchRemoveAdminUser,
+  updateAdminUser,
+  addAdminUser,
 } from '@/api/admin'
 
 export default {
@@ -114,7 +114,7 @@ export default {
       filters: {
         name: '',
         username: '',
-        role_id:[1,2],
+        role_id:'',
         phone:''
       },
       adminUsers: [],
@@ -144,10 +144,6 @@ export default {
     }
   },
   methods: {
-    // 性别显示转换
-    formatSex: function(row, column) {
-      return row.sex === 1 ? '男' : row.sex === 0 ? '女' : '未知'
-    },
     handleCurrentChange(val) {
       this.page = val
       this.getAdminUsers()
@@ -167,7 +163,6 @@ export default {
         this.total = res.data.total
         this.adminUsers = res.data
       })
-
     },
     // 删除
     handleDel(index, row) {
@@ -176,7 +171,7 @@ export default {
       })
         .then(() => {
           const para = { id: row.id }
-          removeUser(para).then(res => {
+          removeAdminUser(para).then(res => {
             this.$message({
               message: '删除成功',
               type: 'success'
@@ -212,11 +207,8 @@ export default {
           this.$confirm('确认提交吗？', '提示', {})
             .then(() => {
               const para = Object.assign({}, this.editForm)
-              para.birth =
-                !para.birth || para.birth === ''
-                  ? ''
-                  : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
-              editUser(para).then(res => {
+              console.log(para)
+              updateAdminUser(para).then(res => {
                 this.$message({
                   message: '提交成功',
                   type: 'success'
@@ -239,15 +231,9 @@ export default {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {})
             .then(() => {
-              this.editForm.id = (parseInt(Math.random() * 100)).toString() // mock a id
               const para = Object.assign({}, this.editForm)
               console.log(para)
-
-              para.birth =
-                !para.birth || para.birth === ''
-                  ? ''
-                  : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
-              addUser(para).then(res => {
+              addAdminUser(para).then(res => {
                 this.$message({
                   message: '提交成功',
                   type: 'success'
@@ -276,7 +262,7 @@ export default {
       })
         .then(() => {
           const para = { ids: ids }
-          batchRemoveUser(para).then(res => {
+          batchRemoveAdminUser(para).then(res => {
             this.$message({
               message: '删除成功',
               type: 'success'

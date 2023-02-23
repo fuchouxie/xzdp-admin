@@ -11,7 +11,7 @@ type RegisterReq struct {
 	Phone    string `json:"phone" form:"phone"`
 	Name     string `json:"name" form:"name"`
 	Remark   string `json:"remark" form:"remark"`
-	RoleID   int32  `json:"role_id" form:"roleID"`
+	RoleID   int32  `json:"role_id" form:"role_id"`
 }
 
 type AdminListReq struct {
@@ -38,11 +38,19 @@ type UpdateAdminReq struct {
 	Phone    string `json:"phone" form:"phone"`
 	Name     string `json:"name" form:"name"`
 	Remark   string `json:"remark" form:"remark"`
-	RoleID   int32  `json:"role_id" form:"roleID"`
+	RoleID   int32  `json:"role_id" form:"role_id"`
 }
 
 type ChangePasswordReq struct {
 	Username    string `json:"username" form:"username" required:"true"`
 	OldPassword string `json:"old_password" form:"old_password" required:"true"`
 	NewPassword string `json:"new_password" form:"new_password" required:"true"`
+}
+
+type RemoveReq struct {
+	ID int32 `json:"id" form:"id"  required:"true"`
+}
+
+type BatchRemoveReq struct {
+	IDS string `json:"ids" form:"ids"  required:"true"`
 }

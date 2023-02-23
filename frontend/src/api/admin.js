@@ -7,31 +7,31 @@ export function getAdminList(params) {
     params: params
   })
 }
-export function removeUser(params) {
+export function removeAdminUser(params) {
   return request({
-    url: '/user/remove',
-    method: 'get',
+    url: '/admin/Remove',
+    method: 'post',
     params: params
   })
 }
-export function batchRemoveUser(params) {
+export function batchRemoveAdminUser(params) {
   return request({
-    url: '/user/batchremove',
-    method: 'get',
+    url: '/admin/BatchRemove',
+    method: 'post',
     params: params
   })
 }
-export function editUser(params) {
+export function updateAdminUser(params) {
   return request({
-    url: '/user/edit',
-    method: 'get',
+    url: '/admin/Update',
+    method: 'post',
     params: params
   })
 }
-export function addUser(params) {
+export function addAdminUser(params) {
   return request({
-    url: '/user/add',
-    method: 'get',
+    url: '/admin/Register',
+    method: 'post',
     params: params
   })
 }
