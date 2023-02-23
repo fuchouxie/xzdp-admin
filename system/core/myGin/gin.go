@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"reflect"
 	"xzdp-admin/system/code"
 	"xzdp-admin/system/utils/config"
 )
@@ -62,4 +63,16 @@ func DoResponse(ctx *gin.Context, params ResponseParams) {
 		"data": params.Data,
 		"msg":  params.Msg,
 	})
+}
+
+func SetupRouterOfController(e *gin.Engine, routerPath string, ctrl interface{}) {
+	v := reflect.ValueOf(ctrl)
+	t := reflect.TypeOf(ctrl)
+	for i := 0; i < v.NumMethod(); i++ {
+		fn := t.Method(i).Name
+		if fc, ok := v.Method(i).Interface().(func(ctx *gin.Context)); ok {
+			e.GET(routerPath+fn, fc)
+			e.POST(routerPath+fn, fc)
+		}
+	}
 }
