@@ -17,4 +17,6 @@ func setupRouter(e *gin.Engine) {
 	myGin.SetupRouterOfController(e, "/shop/", storeController)
 	adminController := new(controller.AdminController)
 	myGin.SetupRouterOfController(e, "/admin/", adminController)
+	homeController := new(controller.Controller)
+	myGin.SetupRouterOfController(e, "/home/", homeController)
 }

@@ -1,5 +1,7 @@
 package dto
 
+import "xzdp-admin/system/core/myGrom"
+
 type LoginReq struct {
 	Username string `json:"username" form:"username" required:"true"`
 	Password string `json:"password" form:"password" required:"true" `
@@ -20,9 +22,15 @@ type AdminListReq struct {
 	Phone    string `json:"phone" form:"phone"`
 	Name     string `json:"name" form:"name"`
 	RoleID   int32  `json:"role_id" form:"role_id"`
+	myGrom.PageLimit
 }
 
 type AdminListRes struct {
+	List  []AdminListOutModel `json:"list"`
+	Total int64               `json:"total"`
+}
+
+type AdminListOutModel struct {
 	ID       int32  `json:"id"`
 	Username string `json:"username"`
 	Phone    string `json:"phone"`
@@ -47,10 +55,10 @@ type ChangePasswordReq struct {
 	NewPassword string `json:"new_password" form:"new_password" required:"true"`
 }
 
-type RemoveReq struct {
+type RemoveAdminReq struct {
 	ID int32 `json:"id" form:"id"  required:"true"`
 }
 
-type BatchRemoveReq struct {
+type BatchRemoveAdminReq struct {
 	IDS string `json:"ids" form:"ids"  required:"true"`
 }

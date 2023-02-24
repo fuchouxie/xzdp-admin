@@ -90,7 +90,7 @@ func (c *AdminController) ChangePassword(ctx *gin.Context) {
 }
 
 func (c *AdminController) Remove(ctx *gin.Context) {
-	var req dto.RemoveReq
+	var req dto.RemoveAdminReq
 	if err := ctx.ShouldBind(&req); err != nil {
 		myGin.Failure(ctx, err.Error())
 		return
@@ -104,7 +104,7 @@ func (c *AdminController) Remove(ctx *gin.Context) {
 }
 
 func (c *AdminController) BatchRemove(ctx *gin.Context) {
-	var req dto.BatchRemoveReq
+	var req dto.BatchRemoveAdminReq
 	if err := ctx.ShouldBind(&req); err != nil {
 		myGin.Failure(ctx, err.Error())
 		return

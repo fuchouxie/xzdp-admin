@@ -67,9 +67,9 @@ func (s *AdminService) UpdateInfo(input dto.UpdateAdminReq) error {
 	return nil
 }
 
-func (s *AdminService) AdminList(input dto.AdminListReq) ([]dto.AdminListRes, error) {
+func (s *AdminService) AdminList(input dto.AdminListReq) (dto.AdminListRes, error) {
 	db := myGrom.Db
-	var res []dto.AdminListRes
+	var res dto.AdminListRes
 	query := entity.AdminUser{
 		ID:     input.ID,
 		RoleID: input.RoleID,
@@ -84,8 +84,7 @@ func (s *AdminService) AdminList(input dto.AdminListReq) ([]dto.AdminListRes, er
 	if input.Name != "" {
 		db.Where("name like ?", "%"+input.Name+"%")
 	}
-
-	if err := db.Find(&res).Error; err != nil {
+	if err := db.Scopes(myGrom.Paginate(input.PageLimit)).Find(&res.List).Limit(-1).Offset(-1).Count(&res.Total).Error; err != nil {
 		return res, err
 	}
 	return res, nil
@@ -118,7 +117,7 @@ func (s *AdminService) ChangePassword(input dto.ChangePasswordReq) error {
 	return nil
 }
 
-func (s *AdminService) Remove(input dto.RemoveReq) error {
+func (s *AdminService) Remove(input dto.RemoveAdminReq) error {
 	db := myGrom.Db
 	if err := db.Model(&entity.AdminUser{}).Delete("id", input.ID).Error; err != nil {
 		return err
@@ -126,7 +125,7 @@ func (s *AdminService) Remove(input dto.RemoveReq) error {
 	return nil
 }
 
-func (s *AdminService) BatchRemove(input dto.BatchRemoveReq) error {
+func (s *AdminService) BatchRemove(input dto.BatchRemoveAdminReq) error {
 	db := myGrom.Db
 	ids := str.IntStrToArray(input.IDS, ",")
 	if err := db.Where("id", ids).Delete(&entity.AdminUser{}).Error; err != nil {
