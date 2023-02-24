@@ -60,7 +60,7 @@ export const constantRouterMap = [
       {
         path: 'shopList',
         name: 'shopList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/shop-management/shop-list'),
         meta: { title: '商户列表' }
       },
       {

@@ -3,23 +3,29 @@
 		<!--工具条-->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true" :model="filters" @submit.native.prevent>
-				<el-form-item label="用户名:">
-					<el-input v-model="filters.username" placeholder="请输入用户名"></el-input>
+				<el-form-item label="商店名称:">
+					<el-input v-model="filters.name" placeholder="请输入商店名称"></el-input>
 				</el-form-item>
-        <el-form-item label="名称:">
-          <el-input v-model="filters.name" placeholder="请输入名称"></el-input>
+        <el-form-item label="商圈名称:">
+          <el-input v-model="filters.area" placeholder="请输入商圈名称"></el-input>
         </el-form-item>
-        <el-form-item label="联系方式:">
-          <el-input v-model="filters.phone" placeholder="请输入联系方式"></el-input>
+        <el-form-item label="详细地址:">
+          <el-input v-model="filters.address" placeholder="请输入地址"></el-input>
         </el-form-item>
-        <el-form-item label="角色:">
-          <el-select v-model = "filters.role_id" placeholder="请选择" clearable>
-            <el-option key:1 value="1" label="超级管理员"/>
-            <el-option key:2 value="2" label="运营管理员"/>
+        <el-form-item label="商店类型:">
+          <el-select v-model = "filters.type_id" placeholder="请选择" clearable>
+            <el-option key:1 value="1" label="美食"/>
+            <el-option key:2 value="2" label="KTV"/>
+            <el-option key:3 value="3" label="丽人·美发"/>
+            <el-option key:4 value="4" label="健身运动"/>
+            <el-option key:5 value="5" label="按摩·足疗"/>
+            <el-option key:6 value="6" label="美容SPA"/>
+            <el-option key:7 value="7" label="亲子游乐"/>
+            <el-option key:8 value="8" label="酒吧"/>
           </el-select>
         </el-form-item>
 				<el-form-item>
-					<el-button type="primary" v-on:click="getAdminUsers">查询</el-button>
+					<el-button type="primary" v-on:click="getShops">查询</el-button>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
@@ -28,21 +34,29 @@
 		</el-col>
 
 		<!--列表-->
-		<el-table :data="adminUsers" highlight-current-row @selection-change="selsChange" style="width: 100%;">
+		<el-table :data="shops" highlight-current-row @selection-change="selsChange" style="width: 100%;">
 			<el-table-column type="selection" width="55">
 			</el-table-column>
 			<el-table-column type="index" width="60">
-			</el-table-column>
-			<el-table-column prop="username" label="用户名" width="120">
-			</el-table-column>
+      </el-table-column>
       <el-table-column prop="name" label="名称" width="120">
       </el-table-column>
-			<el-table-column prop="phone" label="联系方式" width="120">
+			<el-table-column prop="type_id" label="商铺类型" width="120">
 			</el-table-column>
-			<el-table-column prop="role_id" label="角色" width="120">
+			<el-table-column prop="area" label="商圈" width="120">
 			</el-table-column>
-			<el-table-column prop="remark" label="备注" min-width="160">
+			<el-table-column prop="address" label="详细地址" min-width="160">
 			</el-table-column>
+      <el-table-column prop="open_hours" label="营业时间" min-width="160">
+      </el-table-column>
+        <el-table-column prop="sold" label="销量" min-width="160">
+        </el-table-column>
+        <el-table-column prop="avg_price" label="人均价" min-width="160">
+        </el-table-column>
+        <el-table-column prop="score" label="评分" min-width="160">
+        </el-table-column>
+        <el-table-column prop="comments" label="评论数" min-width="160">
+        </el-table-column>
 			<el-table-column label="操作" width="150">
 				<template slot-scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -61,27 +75,50 @@
 		<!--编辑界面-->
 		<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="editForm.username" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item v-if="dialogStatus=='create'" label="密码" prop="password">
-          <el-input v-model="editForm.password" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" prop="name">
+        <el-form-item label="商店名称" prop="name">
           <el-input v-model="editForm.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="editForm.remark" auto-complete="off"></el-input>
+        <el-form-item v-if="dialogStatus=='create'" label="位置" prop="password">
+          <el-input v-model="editForm.location" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="联系方式" prop="phone">
-          <el-input v-model="editForm.phone" auto-complete="off"></el-input>
+        <el-form-item label="商店图" prop="images">
+          <el-upload
+            action="https://jsonplaceholder.typicode.com/posts/"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-change="handlePictureChange">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
         </el-form-item>
-        <el-form-item label="角色">
-          <el-radio-group v-model="editForm.role_id">
-            <el-radio class="radio" :label=1 value="1">超级管理员</el-radio>
-            <el-radio class="radio" :label=2 value="2">运营管理员</el-radio>
-          </el-radio-group>
+
+        <el-form-item label="商圈名称" prop="area">
+          <el-input v-model="editForm.area" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="详细地址" prop="address">
+          <el-input v-model="editForm.address" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="营业时间" prop="open_hours">
+          <el-input v-model="editForm.open_hours" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="均价" prop="avg_price">
+          <el-input v-model="editForm.avg_price" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商店类型">
+          <el-select v-model = "editForm.type_id" placeholder="请选择" clearable>
+            <el-option key:1 value="1" label="美食"/>
+            <el-option key:2 value="2" label="KTV"/>
+            <el-option key:3 value="3" label="丽人·美发"/>
+            <el-option key:4 value="4" label="健身运动"/>
+            <el-option key:5 value="5" label="按摩·足疗"/>
+            <el-option key:6 value="6" label="美容SPA"/>
+            <el-option key:7 value="7" label="亲子游乐"/>
+            <el-option key:8 value="8" label="酒吧"/>
+          </el-select>
+         </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 			 <el-button @click.native="dialogFormVisible=false">取消</el-button>
@@ -95,12 +132,12 @@
 <script>
 import util from '@/utils/table.js'
 import {
-  getAdminList,
-  removeAdminUser,
-  batchRemoveAdminUser,
-  updateAdminUser,
-  addAdminUser,
-} from '@/api/admin'
+  getShopList,
+  removeShop,
+  batchRemoveShop,
+  updateShop,
+  addShop,
+} from '@/api/shop'
 
 export default {
   data() {
@@ -113,57 +150,62 @@ export default {
       dialogFormVisible: false,
       filters: {
         name: '',
-        username: '',
-        role_id:'',
-        phone:''
+        type_id:'',
+        area:'',
+        address: '',
       },
-      adminUsers: [],
+      shops: [],
       total: 0,
       page: 1,
       page_size:10,
       sels: [], // 列表选中列
       editFormRules: {
-        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        name: [{ required: true, message: '请输入商店名称', trigger: 'blur' }],
       },
       // 编辑界面数据
       editForm: {
         id: '0',
         name: '',
-        username:'',
-        password:'',
-        phone: 1,
-        remark: '',
-        role_id: 1
+        type_id:1,
+        images:'',
+        area:'',
+        address: '',
+        sold: 1,
+        avg_price: 1,
+        comments : 1,
+        score:1.5,
+        open_hours:''
       },
 
       addFormVisible: false, // 新增界面是否显示
       addFormRules: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
-      }
+      },
+      dialogImageUrl: '',
+      dialogVisible: false
     }
   },
   methods: {
     handleCurrentChange(val) {
       this.page = val
-      this.getAdminUsers()
+      this.getShops()
 
     },
     // 获取用户列表
-    getAdminUsers() {
+    getShops() {
       const para = {
+        name: this.filters.name,
+        type_id:this.filters.type_id,
+        area:this.filters.area,
+        address: this.filters.address,
         page: this.page,
         page_size:this.page_size,
-        username: this.filters.username,
-        phone: this.filters.phone,
-        role_id: this.filters.role_id,
-        name: this.filters.name,
+
       }
-      getAdminList(para).then(res => {
+      getShopList(para).then(res => {
         console.log("查看记录", res)
         this.total = res.data.total
-        this.adminUsers = res.data.list
+        this.shops = res.data.list
       })
     },
     // 删除
@@ -173,12 +215,12 @@ export default {
       })
         .then(() => {
           const para = { id: row.id }
-          removeAdminUser(para).then(res => {
+          removeShop(para).then(res => {
             this.$message({
               message: '删除成功',
               type: 'success'
             })
-            this.getAdminUsers()
+            this.getShops()
           })
         })
         .catch(() => {})
@@ -195,11 +237,7 @@ export default {
       this.dialogFormVisible = true
       this.editForm = {
         id: '0',
-        name: '',
-        sex: 1,
-        age: 0,
-        birth: '',
-        addr: ''
+
       }
     },
     // 编辑
@@ -210,14 +248,14 @@ export default {
             .then(() => {
               const para = Object.assign({}, this.editForm)
               console.log(para)
-              updateAdminUser(para).then(res => {
+              updateShop(para).then(res => {
                 this.$message({
                   message: '提交成功',
                   type: 'success'
                 })
                 this.$refs['editForm'].resetFields()
                 this.dialogFormVisible = false
-                this.getAdminUsers()
+                this.getShops()
               })
             })
             .catch(e => {
@@ -235,14 +273,14 @@ export default {
             .then(() => {
               const para = Object.assign({}, this.editForm)
               console.log(para)
-              addAdminUser(para).then(res => {
+              addShop(para).then(res => {
                 this.$message({
                   message: '提交成功',
                   type: 'success'
                 })
                 this.$refs['editForm'].resetFields()
                 this.dialogFormVisible = false
-                this.getAdminUsers()
+                this.getShops()
               })
             })
             .catch(e => {
@@ -264,23 +302,34 @@ export default {
       })
         .then(() => {
           const para = { ids: ids }
-          batchRemoveAdminUser(para).then(res => {
+          batchRemoveShop(para).then(res => {
             this.$message({
               message: '删除成功',
               type: 'success'
             })
-            this.getAdminUsers()
+            this.getShops()
           })
         })
         .catch(() => {})
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    handlePictureChange(file){
+      console.log("icon发生改变");
+      this.editForm.images = file.url;
     }
   },
   mounted() {
-    this.getAdminUsers()
+    this.getShops()
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>
