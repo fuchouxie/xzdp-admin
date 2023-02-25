@@ -31,3 +31,23 @@ func (s *UserService) UserList(input dto.UserListReq) (dto.UserListRes, error) {
 	}
 	return res, nil
 }
+
+func (s *UserService) Remove(input dto.RemoveUserReq) error {
+	db := myGrom.Db
+	if err := db.Where("id", input.ID).Delete(&entity.TbUser{}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *UserService) GetUser(input dto.GetUserInfoReq) (dto.UserOutModel, error) {
+	db := myGrom.Db
+	var res dto.UserOutModel
+	db = db.Model(&entity.TbUser{}).Joins("left join tb_user_info userInfo on tb_user.id = userInfo.user_id")
+	db = db.Select("tb_user.*, userInfo.city, userInfo.level, userInfo.introduce, userInfo.fans, userInfo.followee" +
+		", userInfo.gender, userInfo.birthday, userInfo.credits")
+	if err := db.Where("tb_user.id", input.ID).Find(&res).Error; err != nil {
+		return res, err
+	}
+	return res, nil
+}
