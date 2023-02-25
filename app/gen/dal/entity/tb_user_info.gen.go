@@ -6,23 +6,26 @@ package entity
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 const TableNameTbUserInfo = "tb_user_info"
 
 // TbUserInfo mapped from table <tb_user_info>
 type TbUserInfo struct {
-	UserID     int64     `gorm:"column:user_id;primaryKey" json:"user_id"`                                 // 主键，用户id
-	City       string    `gorm:"column:city" json:"city"`                                                  // 城市名称
-	Introduce  string    `gorm:"column:introduce" json:"introduce"`                                        // 个人介绍，不要超过128个字符
-	Fans       int32     `gorm:"column:fans" json:"fans"`                                                  // 粉丝数量
-	Followee   int32     `gorm:"column:followee" json:"followee"`                                          // 关注的人的数量
-	Gender     bool      `gorm:"column:gender" json:"gender"`                                              // 性别，0：男，1：女
-	Birthday   time.Time `gorm:"column:birthday" json:"birthday"`                                          // 生日
-	Credits    int32     `gorm:"column:credits" json:"credits"`                                            // 积分
-	Level      bool      `gorm:"column:level" json:"level"`                                                // 会员级别，0~9级,0代表未开通会员
-	CreateTime time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 创建时间
-	UpdateTime time.Time `gorm:"column:update_time;not null;default:CURRENT_TIMESTAMP" json:"update_time"` // 更新时间
+	UserID    int64          `gorm:"column:user_id;primaryKey" json:"user_id"`     // 主键，用户id
+	City      string         `gorm:"column:city" json:"city"`                      // 城市名称
+	Introduce string         `gorm:"column:introduce" json:"introduce"`            // 个人介绍，不要超过128个字符
+	Fans      int32          `gorm:"column:fans" json:"fans"`                      // 粉丝数量
+	Followee  int32          `gorm:"column:followee" json:"followee"`              // 关注的人的数量
+	Gender    bool           `gorm:"column:gender" json:"gender"`                  // 性别，0：男，1：女
+	Birthday  time.Time      `gorm:"column:birthday" json:"birthday"`              // 生日
+	Credits   int32          `gorm:"column:credits" json:"credits"`                // 积分
+	Level     int32          `gorm:"column:level" json:"level"`                    // 会员级别，0~9级,0代表未开通会员
+	CreatedAt time.Time      `gorm:"column:created_at;not null" json:"created_at"` // 创建时间
+	UpdatedAt time.Time      `gorm:"column:updated_at;not null" json:"updated_at"` // 更新时间
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
 // TableName TbUserInfo's table name
