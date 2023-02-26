@@ -21,4 +21,6 @@ func setupRouter(e *gin.Engine) {
 	myGin.SetupRouterOfController(e, "/home/", homeController)
 	userController := new(controller.UserController)
 	myGin.SetupRouterOfController(e, "/user/", userController)
+	voucherController := new(controller.VoucherController)
+	myGin.SetupRouterOfController(e, "/voucher/", voucherController)
 }

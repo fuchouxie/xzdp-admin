@@ -64,11 +64,10 @@ export const constantRouterMap = [
         meta: { title: '商户列表' }
       },
       {
-        path: 'BaseForm',
-        name: 'BaseForm',
-        hidden: true, // 不在侧边栏线上
-        component: () => import('@/views/form/BaseForm'),
-        meta: { title: '修改商户' }
+        path: 'voucherList',
+        name: 'voucherList',
+        component: () => import('@/views/shop-management/voucher-list'),
+        meta: { title: '优惠券列表' }
       }
     ]
   },
