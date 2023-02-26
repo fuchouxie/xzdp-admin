@@ -13,7 +13,7 @@ func (s *UserService) UserList(input dto.UserListReq) (dto.UserListRes, error) {
 	db := myGrom.Db
 	var res dto.UserListRes
 	db = db.Model(&entity.TbUser{}).Joins("left join tb_user_info userInfo on tb_user.id = userInfo.user_id")
-	db = db.Select("tb_user.*, tb_user.created_at, userInfo.city, userInfo.level")
+	db = db.Select("tb_user.*, tb_user.created_at, userInfo.city, userInfo.level, userInfo.gender")
 	if input.NickName != "" {
 		db = db.Where("nick_name like ?", "%"+input.NickName+"%")
 	}

@@ -87,9 +87,16 @@ export const constantRouterMap = [
       {
         path: 'userList',
         name: 'userList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/user-management/user-list'),
         meta: { title: '用户列表' }
-      }
+      },
+      {
+        path: 'userDetail/:id?',
+        name: 'userDetail',
+        hidden: true,
+        component: () => import('@/views/user-management/user-detail'),
+        meta: { title: '用户详情' }
+      },
     ]
   },
   {

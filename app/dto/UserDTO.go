@@ -28,7 +28,7 @@ type UserOutModel struct {
 	Introduce string    `json:"introduce,omitempty"`    // 个人介绍，不要超过128个字符
 	Fans      int32     `json:"fans,omitempty"`         // 粉丝数量
 	Followee  int32     `json:"followee,omitempty"`     // 关注的人的数量
-	Gender    bool      `json:"gender,omitempty"`       // 性别，0：男，1：女
+	Gender    int32     `json:"gender"`                 // 性别，0：男，1：女
 	Birthday  time.Time `json:"birthday,omitempty"`     // 生日
 	Credits   int32     `json:"credits,omitempty"`      // 积分
 }
