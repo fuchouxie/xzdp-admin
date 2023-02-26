@@ -35,9 +35,10 @@ func newTbUserInfo(db *gorm.DB, opts ...gen.DOOption) tbUserInfo {
 	_tbUserInfo.Gender = field.NewBool(tableName, "gender")
 	_tbUserInfo.Birthday = field.NewTime(tableName, "birthday")
 	_tbUserInfo.Credits = field.NewInt32(tableName, "credits")
-	_tbUserInfo.Level = field.NewBool(tableName, "level")
-	_tbUserInfo.CreateTime = field.NewTime(tableName, "create_time")
-	_tbUserInfo.UpdateTime = field.NewTime(tableName, "update_time")
+	_tbUserInfo.Level = field.NewInt32(tableName, "level")
+	_tbUserInfo.CreatedAt = field.NewTime(tableName, "created_at")
+	_tbUserInfo.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_tbUserInfo.DeletedAt = field.NewField(tableName, "deleted_at")
 
 	_tbUserInfo.fillFieldMap()
 
@@ -47,18 +48,19 @@ func newTbUserInfo(db *gorm.DB, opts ...gen.DOOption) tbUserInfo {
 type tbUserInfo struct {
 	tbUserInfoDo tbUserInfoDo
 
-	ALL        field.Asterisk
-	UserID     field.Int64  // 主键，用户id
-	City       field.String // 城市名称
-	Introduce  field.String // 个人介绍，不要超过128个字符
-	Fans       field.Int32  // 粉丝数量
-	Followee   field.Int32  // 关注的人的数量
-	Gender     field.Bool   // 性别，0：男，1：女
-	Birthday   field.Time   // 生日
-	Credits    field.Int32  // 积分
-	Level      field.Bool   // 会员级别，0~9级,0代表未开通会员
-	CreateTime field.Time   // 创建时间
-	UpdateTime field.Time   // 更新时间
+	ALL       field.Asterisk
+	UserID    field.Int64  // 主键，用户id
+	City      field.String // 城市名称
+	Introduce field.String // 个人介绍，不要超过128个字符
+	Fans      field.Int32  // 粉丝数量
+	Followee  field.Int32  // 关注的人的数量
+	Gender    field.Bool   // 性别，0：男，1：女
+	Birthday  field.Time   // 生日
+	Credits   field.Int32  // 积分
+	Level     field.Int32  // 会员级别，0~9级,0代表未开通会员
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
+	DeletedAt field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -83,9 +85,10 @@ func (t *tbUserInfo) updateTableName(table string) *tbUserInfo {
 	t.Gender = field.NewBool(table, "gender")
 	t.Birthday = field.NewTime(table, "birthday")
 	t.Credits = field.NewInt32(table, "credits")
-	t.Level = field.NewBool(table, "level")
-	t.CreateTime = field.NewTime(table, "create_time")
-	t.UpdateTime = field.NewTime(table, "update_time")
+	t.Level = field.NewInt32(table, "level")
+	t.CreatedAt = field.NewTime(table, "created_at")
+	t.UpdatedAt = field.NewTime(table, "updated_at")
+	t.DeletedAt = field.NewField(table, "deleted_at")
 
 	t.fillFieldMap()
 
@@ -110,7 +113,7 @@ func (t *tbUserInfo) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (t *tbUserInfo) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 11)
+	t.fieldMap = make(map[string]field.Expr, 12)
 	t.fieldMap["user_id"] = t.UserID
 	t.fieldMap["city"] = t.City
 	t.fieldMap["introduce"] = t.Introduce
@@ -120,8 +123,9 @@ func (t *tbUserInfo) fillFieldMap() {
 	t.fieldMap["birthday"] = t.Birthday
 	t.fieldMap["credits"] = t.Credits
 	t.fieldMap["level"] = t.Level
-	t.fieldMap["create_time"] = t.CreateTime
-	t.fieldMap["update_time"] = t.UpdateTime
+	t.fieldMap["created_at"] = t.CreatedAt
+	t.fieldMap["updated_at"] = t.UpdatedAt
+	t.fieldMap["deleted_at"] = t.DeletedAt
 }
 
 func (t tbUserInfo) clone(db *gorm.DB) tbUserInfo {

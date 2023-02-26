@@ -40,8 +40,9 @@ func newTbShop(db *gorm.DB, opts ...gen.DOOption) tbShop {
 	_tbShop.Comments = field.NewInt32(tableName, "comments")
 	_tbShop.Score = field.NewInt32(tableName, "score")
 	_tbShop.OpenHours = field.NewString(tableName, "open_hours")
-	_tbShop.CreateTime = field.NewTime(tableName, "create_time")
-	_tbShop.UpdateTime = field.NewTime(tableName, "update_time")
+	_tbShop.CreatedAt = field.NewTime(tableName, "created_at")
+	_tbShop.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_tbShop.DeletedAt = field.NewField(tableName, "deleted_at")
 
 	_tbShop.fillFieldMap()
 
@@ -51,22 +52,23 @@ func newTbShop(db *gorm.DB, opts ...gen.DOOption) tbShop {
 type tbShop struct {
 	tbShopDo tbShopDo
 
-	ALL        field.Asterisk
-	ID         field.Int64   // 主键
-	Name       field.String  // 商铺名称
-	TypeID     field.Int64   // 商铺类型的id
-	Images     field.String  // 商铺图片，多个图片以','隔开
-	Area       field.String  // 商圈，例如陆家嘴
-	Address    field.String  // 地址
-	X          field.Float64 // 经度
-	Y          field.Float64 // 维度
-	AvgPrice   field.Int64   // 均价，取整数
-	Sold       field.Int32   // 销量
-	Comments   field.Int32   // 评论数量
-	Score      field.Int32   // 评分，1~5分，乘10保存，避免小数
-	OpenHours  field.String  // 营业时间，例如 10:00-22:00
-	CreateTime field.Time    // 创建时间
-	UpdateTime field.Time    // 更新时间
+	ALL       field.Asterisk
+	ID        field.Int64   // 主键
+	Name      field.String  // 商铺名称
+	TypeID    field.Int64   // 商铺类型的id
+	Images    field.String  // 商铺图片，多个图片以','隔开
+	Area      field.String  // 商圈，例如陆家嘴
+	Address   field.String  // 地址
+	X         field.Float64 // 经度
+	Y         field.Float64 // 维度
+	AvgPrice  field.Int64   // 均价，取整数
+	Sold      field.Int32   // 销量
+	Comments  field.Int32   // 评论数量
+	Score     field.Int32   // 评分，1~5分，乘10保存，避免小数
+	OpenHours field.String  // 营业时间，例如 10:00-22:00
+	CreatedAt field.Time    // 创建时间
+	UpdatedAt field.Time    // 更新时间
+	DeletedAt field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -96,8 +98,9 @@ func (t *tbShop) updateTableName(table string) *tbShop {
 	t.Comments = field.NewInt32(table, "comments")
 	t.Score = field.NewInt32(table, "score")
 	t.OpenHours = field.NewString(table, "open_hours")
-	t.CreateTime = field.NewTime(table, "create_time")
-	t.UpdateTime = field.NewTime(table, "update_time")
+	t.CreatedAt = field.NewTime(table, "created_at")
+	t.UpdatedAt = field.NewTime(table, "updated_at")
+	t.DeletedAt = field.NewField(table, "deleted_at")
 
 	t.fillFieldMap()
 
@@ -120,7 +123,7 @@ func (t *tbShop) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (t *tbShop) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 15)
+	t.fieldMap = make(map[string]field.Expr, 16)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["name"] = t.Name
 	t.fieldMap["type_id"] = t.TypeID
@@ -134,8 +137,9 @@ func (t *tbShop) fillFieldMap() {
 	t.fieldMap["comments"] = t.Comments
 	t.fieldMap["score"] = t.Score
 	t.fieldMap["open_hours"] = t.OpenHours
-	t.fieldMap["create_time"] = t.CreateTime
-	t.fieldMap["update_time"] = t.UpdateTime
+	t.fieldMap["created_at"] = t.CreatedAt
+	t.fieldMap["updated_at"] = t.UpdatedAt
+	t.fieldMap["deleted_at"] = t.DeletedAt
 }
 
 func (t tbShop) clone(db *gorm.DB) tbShop {

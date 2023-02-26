@@ -60,7 +60,7 @@ export const constantRouterMap = [
       {
         path: 'shopList',
         name: 'shopList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/shop-management/shop-list'),
         meta: { title: '商户列表' }
       },
       {
@@ -87,9 +87,16 @@ export const constantRouterMap = [
       {
         path: 'userList',
         name: 'userList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/user-management/user-list'),
         meta: { title: '用户列表' }
-      }
+      },
+      {
+        path: 'userDetail/:id?',
+        name: 'userDetail',
+        hidden: true,
+        component: () => import('@/views/user-management/user-detail'),
+        meta: { title: '用户详情' }
+      },
     ]
   },
   {
@@ -144,7 +151,7 @@ export const constantRouterMap = [
       {
         path: 'adminList',
         name: 'adminList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/admin-management/admin-list'),
         meta: { title: '管理员列表' }
       }
     ]

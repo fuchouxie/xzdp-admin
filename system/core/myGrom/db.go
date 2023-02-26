@@ -54,3 +54,29 @@ func init() {
 		panic("orm myGrom connect error")
 	}
 }
+
+type PageLimit struct {
+	Page     int `form:"page,default=1" json:"page,default=1"`
+	PageSize int `form:"page_size,default=10" json:"page_size,default=10"`
+	OffSet   int
+}
+
+func Paginate(p PageLimit) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		page := p.Page
+		if page == 0 {
+			page = 1
+		}
+
+		pageSize := p.PageSize
+		switch {
+		case pageSize > 100:
+			pageSize = 100
+		case pageSize <= 0:
+			pageSize = 10
+		}
+
+		offset := (page - 1) * pageSize
+		return db.Offset(offset).Limit(pageSize)
+	}
+}

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
+	"gorm.io/gen/field"
 	"gorm.io/gorm"
 	"xzdp-admin/system/utils/config"
 )
@@ -14,8 +15,12 @@ func main() {
 	initGen()
 	shop := g.GenerateModel("tb_shop")
 	blog := g.GenerateModel("tb_blog")
-	user := g.GenerateModel("tb_user")
 	userInfo := g.GenerateModel("tb_user_info")
+	user := g.GenerateModel("tb_user", gen.FieldRelate(
+		field.HasOne, "UserInfo", userInfo, &field.RelateConfig{
+			GORMTag: "foreignKey:user_id",
+		},
+	))
 	voucher := g.GenerateModel("tb_voucher")
 	voucherOrder := g.GenerateModel("tb_voucher_order")
 
@@ -24,8 +29,9 @@ func main() {
 	adminUserShop := g.GenerateModel("admin_user_shop")
 	g.ApplyBasic(shop)
 	g.ApplyBasic(blog)
-	g.ApplyBasic(user)
 	g.ApplyBasic(userInfo)
+	g.ApplyBasic(user)
+
 	g.ApplyBasic(voucher)
 	g.ApplyBasic(voucherOrder)
 	g.ApplyBasic(adminUser)

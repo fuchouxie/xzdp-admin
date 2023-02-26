@@ -32,8 +32,14 @@ func newTbUser(db *gorm.DB, opts ...gen.DOOption) tbUser {
 	_tbUser.Password = field.NewString(tableName, "password")
 	_tbUser.NickName = field.NewString(tableName, "nick_name")
 	_tbUser.Icon = field.NewString(tableName, "icon")
-	_tbUser.CreateTime = field.NewTime(tableName, "create_time")
-	_tbUser.UpdateTime = field.NewTime(tableName, "update_time")
+	_tbUser.CreatedAt = field.NewTime(tableName, "created_at")
+	_tbUser.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_tbUser.DeletedAt = field.NewField(tableName, "deleted_at")
+	_tbUser.UserInfo = tbUserHasOneUserInfo{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("UserInfo", "entity.TbUserInfo"),
+	}
 
 	_tbUser.fillFieldMap()
 
@@ -43,14 +49,16 @@ func newTbUser(db *gorm.DB, opts ...gen.DOOption) tbUser {
 type tbUser struct {
 	tbUserDo tbUserDo
 
-	ALL        field.Asterisk
-	ID         field.Int64  // 主键
-	Phone      field.String // 手机号码
-	Password   field.String // 密码，加密存储
-	NickName   field.String // 昵称，默认是用户id
-	Icon       field.String // 人物头像
-	CreateTime field.Time   // 创建时间
-	UpdateTime field.Time   // 更新时间
+	ALL       field.Asterisk
+	ID        field.Int64  // 主键
+	Phone     field.String // 手机号码
+	Password  field.String // 密码，加密存储
+	NickName  field.String // 昵称，默认是用户id
+	Icon      field.String // 人物头像
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
+	DeletedAt field.Field
+	UserInfo  tbUserHasOneUserInfo
 
 	fieldMap map[string]field.Expr
 }
@@ -72,8 +80,9 @@ func (t *tbUser) updateTableName(table string) *tbUser {
 	t.Password = field.NewString(table, "password")
 	t.NickName = field.NewString(table, "nick_name")
 	t.Icon = field.NewString(table, "icon")
-	t.CreateTime = field.NewTime(table, "create_time")
-	t.UpdateTime = field.NewTime(table, "update_time")
+	t.CreatedAt = field.NewTime(table, "created_at")
+	t.UpdatedAt = field.NewTime(table, "updated_at")
+	t.DeletedAt = field.NewField(table, "deleted_at")
 
 	t.fillFieldMap()
 
@@ -96,14 +105,16 @@ func (t *tbUser) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (t *tbUser) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 7)
+	t.fieldMap = make(map[string]field.Expr, 9)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["phone"] = t.Phone
 	t.fieldMap["password"] = t.Password
 	t.fieldMap["nick_name"] = t.NickName
 	t.fieldMap["icon"] = t.Icon
-	t.fieldMap["create_time"] = t.CreateTime
-	t.fieldMap["update_time"] = t.UpdateTime
+	t.fieldMap["created_at"] = t.CreatedAt
+	t.fieldMap["updated_at"] = t.UpdatedAt
+	t.fieldMap["deleted_at"] = t.DeletedAt
+
 }
 
 func (t tbUser) clone(db *gorm.DB) tbUser {
@@ -114,6 +125,72 @@ func (t tbUser) clone(db *gorm.DB) tbUser {
 func (t tbUser) replaceDB(db *gorm.DB) tbUser {
 	t.tbUserDo.ReplaceDB(db)
 	return t
+}
+
+type tbUserHasOneUserInfo struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a tbUserHasOneUserInfo) Where(conds ...field.Expr) *tbUserHasOneUserInfo {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a tbUserHasOneUserInfo) WithContext(ctx context.Context) *tbUserHasOneUserInfo {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a tbUserHasOneUserInfo) Model(m *entity.TbUser) *tbUserHasOneUserInfoTx {
+	return &tbUserHasOneUserInfoTx{a.db.Model(m).Association(a.Name())}
+}
+
+type tbUserHasOneUserInfoTx struct{ tx *gorm.Association }
+
+func (a tbUserHasOneUserInfoTx) Find() (result *entity.TbUserInfo, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a tbUserHasOneUserInfoTx) Append(values ...*entity.TbUserInfo) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a tbUserHasOneUserInfoTx) Replace(values ...*entity.TbUserInfo) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a tbUserHasOneUserInfoTx) Delete(values ...*entity.TbUserInfo) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a tbUserHasOneUserInfoTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a tbUserHasOneUserInfoTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type tbUserDo struct{ gen.DO }

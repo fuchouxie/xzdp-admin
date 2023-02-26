@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"reflect"
+	"strings"
 	"xzdp-admin/system/code"
 	"xzdp-admin/system/utils/config"
 )
@@ -62,4 +64,34 @@ func DoResponse(ctx *gin.Context, params ResponseParams) {
 		"data": params.Data,
 		"msg":  params.Msg,
 	})
+}
+
+func SetupRouterOfController(e *gin.Engine, routerPath string, ctrl interface{}) {
+	v := reflect.ValueOf(ctrl)
+	t := reflect.TypeOf(ctrl)
+	for i := 0; i < v.NumMethod(); i++ {
+		fn := t.Method(i).Name
+		isGet := ShouldOnlyGet(fn)
+		if fc, ok := v.Method(i).Interface().(func(ctx *gin.Context)); ok {
+			if isGet {
+				e.GET(routerPath+fn, fc)
+			} else {
+				e.POST(routerPath+fn, fc)
+			}
+		}
+	}
+}
+
+// 判断该接口是否应该为GET请求
+func ShouldOnlyGet(fn string) bool {
+	fnName := strings.ToLower(fn)
+	res := strings.Contains(fnName, "get")
+	if res {
+		return true
+	}
+	res = strings.Contains(fnName, "list")
+	if res {
+		return true
+	}
+	return false
 }
