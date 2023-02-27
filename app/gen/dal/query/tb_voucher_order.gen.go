@@ -30,8 +30,8 @@ func newTbVoucherOrder(db *gorm.DB, opts ...gen.DOOption) tbVoucherOrder {
 	_tbVoucherOrder.ID = field.NewInt64(tableName, "id")
 	_tbVoucherOrder.UserID = field.NewInt64(tableName, "user_id")
 	_tbVoucherOrder.VoucherID = field.NewInt64(tableName, "voucher_id")
-	_tbVoucherOrder.PayType = field.NewBool(tableName, "pay_type")
-	_tbVoucherOrder.Status = field.NewBool(tableName, "status")
+	_tbVoucherOrder.PayType = field.NewInt32(tableName, "pay_type")
+	_tbVoucherOrder.Status = field.NewInt32(tableName, "status")
 	_tbVoucherOrder.CreatedAt = field.NewTime(tableName, "created_at")
 	_tbVoucherOrder.PayTime = field.NewTime(tableName, "pay_time")
 	_tbVoucherOrder.UseTime = field.NewTime(tableName, "use_time")
@@ -51,8 +51,8 @@ type tbVoucherOrder struct {
 	ID         field.Int64 // 主键
 	UserID     field.Int64 // 下单的用户id
 	VoucherID  field.Int64 // 购买的代金券id
-	PayType    field.Bool  // 支付方式 1：余额支付；2：支付宝；3：微信
-	Status     field.Bool  // 订单状态，1：未支付；2：已支付；3：已核销；4：已取消；5：退款中；6：已退款
+	PayType    field.Int32 // 支付方式 1：余额支付；2：支付宝；3：微信
+	Status     field.Int32 // 订单状态，1：未支付；2：已支付；3：已核销；4：已取消；5：退款中；6：已退款
 	CreatedAt  field.Time  // 下单时间
 	PayTime    field.Time  // 支付时间
 	UseTime    field.Time  // 核销时间
@@ -78,8 +78,8 @@ func (t *tbVoucherOrder) updateTableName(table string) *tbVoucherOrder {
 	t.ID = field.NewInt64(table, "id")
 	t.UserID = field.NewInt64(table, "user_id")
 	t.VoucherID = field.NewInt64(table, "voucher_id")
-	t.PayType = field.NewBool(table, "pay_type")
-	t.Status = field.NewBool(table, "status")
+	t.PayType = field.NewInt32(table, "pay_type")
+	t.Status = field.NewInt32(table, "status")
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.PayTime = field.NewTime(table, "pay_time")
 	t.UseTime = field.NewTime(table, "use_time")
