@@ -32,11 +32,12 @@ func newTbVoucherOrder(db *gorm.DB, opts ...gen.DOOption) tbVoucherOrder {
 	_tbVoucherOrder.VoucherID = field.NewInt64(tableName, "voucher_id")
 	_tbVoucherOrder.PayType = field.NewBool(tableName, "pay_type")
 	_tbVoucherOrder.Status = field.NewBool(tableName, "status")
-	_tbVoucherOrder.CreateTime = field.NewTime(tableName, "create_time")
+	_tbVoucherOrder.CreatedAt = field.NewTime(tableName, "created_at")
 	_tbVoucherOrder.PayTime = field.NewTime(tableName, "pay_time")
 	_tbVoucherOrder.UseTime = field.NewTime(tableName, "use_time")
 	_tbVoucherOrder.RefundTime = field.NewTime(tableName, "refund_time")
-	_tbVoucherOrder.UpdateTime = field.NewTime(tableName, "update_time")
+	_tbVoucherOrder.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_tbVoucherOrder.DeletedAt = field.NewField(tableName, "deleted_at")
 
 	_tbVoucherOrder.fillFieldMap()
 
@@ -52,11 +53,12 @@ type tbVoucherOrder struct {
 	VoucherID  field.Int64 // 购买的代金券id
 	PayType    field.Bool  // 支付方式 1：余额支付；2：支付宝；3：微信
 	Status     field.Bool  // 订单状态，1：未支付；2：已支付；3：已核销；4：已取消；5：退款中；6：已退款
-	CreateTime field.Time  // 下单时间
+	CreatedAt  field.Time  // 下单时间
 	PayTime    field.Time  // 支付时间
 	UseTime    field.Time  // 核销时间
 	RefundTime field.Time  // 退款时间
-	UpdateTime field.Time  // 更新时间
+	UpdatedAt  field.Time  // 更新时间
+	DeletedAt  field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -78,11 +80,12 @@ func (t *tbVoucherOrder) updateTableName(table string) *tbVoucherOrder {
 	t.VoucherID = field.NewInt64(table, "voucher_id")
 	t.PayType = field.NewBool(table, "pay_type")
 	t.Status = field.NewBool(table, "status")
-	t.CreateTime = field.NewTime(table, "create_time")
+	t.CreatedAt = field.NewTime(table, "created_at")
 	t.PayTime = field.NewTime(table, "pay_time")
 	t.UseTime = field.NewTime(table, "use_time")
 	t.RefundTime = field.NewTime(table, "refund_time")
-	t.UpdateTime = field.NewTime(table, "update_time")
+	t.UpdatedAt = field.NewTime(table, "updated_at")
+	t.DeletedAt = field.NewField(table, "deleted_at")
 
 	t.fillFieldMap()
 
@@ -107,17 +110,18 @@ func (t *tbVoucherOrder) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (t *tbVoucherOrder) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 10)
+	t.fieldMap = make(map[string]field.Expr, 11)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["user_id"] = t.UserID
 	t.fieldMap["voucher_id"] = t.VoucherID
 	t.fieldMap["pay_type"] = t.PayType
 	t.fieldMap["status"] = t.Status
-	t.fieldMap["create_time"] = t.CreateTime
+	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["pay_time"] = t.PayTime
 	t.fieldMap["use_time"] = t.UseTime
 	t.fieldMap["refund_time"] = t.RefundTime
-	t.fieldMap["update_time"] = t.UpdateTime
+	t.fieldMap["updated_at"] = t.UpdatedAt
+	t.fieldMap["deleted_at"] = t.DeletedAt
 }
 
 func (t tbVoucherOrder) clone(db *gorm.DB) tbVoucherOrder {

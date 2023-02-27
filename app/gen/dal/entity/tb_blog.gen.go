@@ -6,22 +6,25 @@ package entity
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 const TableNameTbBlog = "tb_blog"
 
 // TbBlog mapped from table <tb_blog>
 type TbBlog struct {
-	ID         int64     `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`                        // 主键
-	ShopID     int64     `gorm:"column:shop_id;not null" json:"shop_id"`                                   // 商户id
-	UserID     int64     `gorm:"column:user_id;not null" json:"user_id"`                                   // 用户id
-	Title      string    `gorm:"column:title;not null" json:"title"`                                       // 标题
-	Images     string    `gorm:"column:images;not null" json:"images"`                                     // 探店的照片，最多9张，多张以","隔开
-	Content    string    `gorm:"column:content;not null" json:"content"`                                   // 探店的文字描述
-	Liked      int32     `gorm:"column:liked" json:"liked"`                                                // 点赞数量
-	Comments   int32     `gorm:"column:comments" json:"comments"`                                          // 评论数量
-	CreateTime time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 创建时间
-	UpdateTime time.Time `gorm:"column:update_time;not null;default:CURRENT_TIMESTAMP" json:"update_time"` // 更新时间
+	ID        int64          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"` // 主键
+	ShopID    int64          `gorm:"column:shop_id;not null" json:"shop_id"`            // 商户id
+	UserID    int64          `gorm:"column:user_id;not null" json:"user_id"`            // 用户id
+	Title     string         `gorm:"column:title;not null" json:"title"`                // 标题
+	Images    string         `gorm:"column:images;not null" json:"images"`              // 探店的照片，最多9张，多张以","隔开
+	Content   string         `gorm:"column:content;not null" json:"content"`            // 探店的文字描述
+	Liked     int32          `gorm:"column:liked" json:"liked"`                         // 点赞数量
+	Comments  int32          `gorm:"column:comments" json:"comments"`                   // 评论数量
+	CreatedAt time.Time      `gorm:"column:created_at;not null" json:"created_at"`      // 创建时间
+	UpdatedAt time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`      // 更新时间
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
 // TableName TbBlog's table name

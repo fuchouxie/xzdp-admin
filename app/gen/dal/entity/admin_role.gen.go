@@ -15,8 +15,9 @@ const TableNameAdminRole = "admin_role"
 // AdminRole mapped from table <admin_role>
 type AdminRole struct {
 	ID        int32          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	Name      string         `gorm:"column:name;not null" json:"name"`     // 角色名称
-	Remark    string         `gorm:"column:remark;not null" json:"remark"` // 备注
+	Name      string         `gorm:"column:name;not null" json:"name"`
+	Remark    string         `gorm:"column:remark;not null" json:"remark"`
+	Status    int32          `gorm:"column:status;default:1" json:"status"` // 状态: 1 启用, 2 禁用; 默认启用
 	CreatedAt time.Time      `gorm:"column:created_at;not null" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`

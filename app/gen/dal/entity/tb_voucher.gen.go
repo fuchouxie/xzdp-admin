@@ -21,7 +21,7 @@ type TbVoucher struct {
 	Rules       string         `gorm:"column:rules" json:"rules"`                         // 使用规则
 	PayValue    int64          `gorm:"column:pay_value;not null" json:"pay_value"`        // 支付金额，单位是分。例如200代表2元
 	ActualValue int64          `gorm:"column:actual_value;not null" json:"actual_value"`  // 抵扣金额，单位是分。例如200代表2元
-	Type        int32          `gorm:"column:type;not null" json:"type"`                  // 0,普通券；1,秒杀券
+	Type        int32          `gorm:"column:type;not null;default:1" json:"type"`        // 1,普通券；2,秒杀券
 	Status      int32          `gorm:"column:status;not null;default:1" json:"status"`    // 1,上架; 2,下架; 3,过期
 	CreatedAt   time.Time      `gorm:"column:created_at;not null" json:"created_at"`      // 创建时间
 	UpdatedAt   time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`      // 更新时间

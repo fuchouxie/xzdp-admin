@@ -30,6 +30,7 @@ func newAdminRole(db *gorm.DB, opts ...gen.DOOption) adminRole {
 	_adminRole.ID = field.NewInt32(tableName, "id")
 	_adminRole.Name = field.NewString(tableName, "name")
 	_adminRole.Remark = field.NewString(tableName, "remark")
+	_adminRole.Status = field.NewInt32(tableName, "status")
 	_adminRole.CreatedAt = field.NewTime(tableName, "created_at")
 	_adminRole.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_adminRole.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -44,8 +45,9 @@ type adminRole struct {
 
 	ALL       field.Asterisk
 	ID        field.Int32
-	Name      field.String // 角色名称
-	Remark    field.String // 备注
+	Name      field.String
+	Remark    field.String
+	Status    field.Int32 // 状态: 1 启用, 2 禁用; 默认启用
 	CreatedAt field.Time
 	UpdatedAt field.Time
 	DeletedAt field.Field
@@ -68,6 +70,7 @@ func (a *adminRole) updateTableName(table string) *adminRole {
 	a.ID = field.NewInt32(table, "id")
 	a.Name = field.NewString(table, "name")
 	a.Remark = field.NewString(table, "remark")
+	a.Status = field.NewInt32(table, "status")
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
@@ -95,10 +98,11 @@ func (a *adminRole) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *adminRole) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 6)
+	a.fieldMap = make(map[string]field.Expr, 7)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["name"] = a.Name
 	a.fieldMap["remark"] = a.Remark
+	a.fieldMap["status"] = a.Status
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt

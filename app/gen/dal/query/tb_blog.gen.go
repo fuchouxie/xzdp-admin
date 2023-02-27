@@ -35,8 +35,9 @@ func newTbBlog(db *gorm.DB, opts ...gen.DOOption) tbBlog {
 	_tbBlog.Content = field.NewString(tableName, "content")
 	_tbBlog.Liked = field.NewInt32(tableName, "liked")
 	_tbBlog.Comments = field.NewInt32(tableName, "comments")
-	_tbBlog.CreateTime = field.NewTime(tableName, "create_time")
-	_tbBlog.UpdateTime = field.NewTime(tableName, "update_time")
+	_tbBlog.CreatedAt = field.NewTime(tableName, "created_at")
+	_tbBlog.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_tbBlog.DeletedAt = field.NewField(tableName, "deleted_at")
 
 	_tbBlog.fillFieldMap()
 
@@ -46,17 +47,18 @@ func newTbBlog(db *gorm.DB, opts ...gen.DOOption) tbBlog {
 type tbBlog struct {
 	tbBlogDo tbBlogDo
 
-	ALL        field.Asterisk
-	ID         field.Int64  // 主键
-	ShopID     field.Int64  // 商户id
-	UserID     field.Int64  // 用户id
-	Title      field.String // 标题
-	Images     field.String // 探店的照片，最多9张，多张以","隔开
-	Content    field.String // 探店的文字描述
-	Liked      field.Int32  // 点赞数量
-	Comments   field.Int32  // 评论数量
-	CreateTime field.Time   // 创建时间
-	UpdateTime field.Time   // 更新时间
+	ALL       field.Asterisk
+	ID        field.Int64  // 主键
+	ShopID    field.Int64  // 商户id
+	UserID    field.Int64  // 用户id
+	Title     field.String // 标题
+	Images    field.String // 探店的照片，最多9张，多张以","隔开
+	Content   field.String // 探店的文字描述
+	Liked     field.Int32  // 点赞数量
+	Comments  field.Int32  // 评论数量
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
+	DeletedAt field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -81,8 +83,9 @@ func (t *tbBlog) updateTableName(table string) *tbBlog {
 	t.Content = field.NewString(table, "content")
 	t.Liked = field.NewInt32(table, "liked")
 	t.Comments = field.NewInt32(table, "comments")
-	t.CreateTime = field.NewTime(table, "create_time")
-	t.UpdateTime = field.NewTime(table, "update_time")
+	t.CreatedAt = field.NewTime(table, "created_at")
+	t.UpdatedAt = field.NewTime(table, "updated_at")
+	t.DeletedAt = field.NewField(table, "deleted_at")
 
 	t.fillFieldMap()
 
@@ -105,7 +108,7 @@ func (t *tbBlog) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (t *tbBlog) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 10)
+	t.fieldMap = make(map[string]field.Expr, 11)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["shop_id"] = t.ShopID
 	t.fieldMap["user_id"] = t.UserID
@@ -114,8 +117,9 @@ func (t *tbBlog) fillFieldMap() {
 	t.fieldMap["content"] = t.Content
 	t.fieldMap["liked"] = t.Liked
 	t.fieldMap["comments"] = t.Comments
-	t.fieldMap["create_time"] = t.CreateTime
-	t.fieldMap["update_time"] = t.UpdateTime
+	t.fieldMap["created_at"] = t.CreatedAt
+	t.fieldMap["updated_at"] = t.UpdatedAt
+	t.fieldMap["deleted_at"] = t.DeletedAt
 }
 
 func (t tbBlog) clone(db *gorm.DB) tbBlog {
