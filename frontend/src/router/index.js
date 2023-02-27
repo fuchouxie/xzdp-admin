@@ -131,8 +131,14 @@ export const constantRouterMap = [
       {
         path: 'blogList',
         name: 'blogList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/blog-management/blog-list'),
         meta: { title: '笔记列表' }
+      },
+      {
+        path: 'blogDetail/:id?',
+        name: 'blogDetail',
+        component: () => import('@/views/blog-management/blog-detail'),
+        meta: { title: '笔记详情' }
       }
     ]
   },

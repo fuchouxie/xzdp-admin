@@ -21,10 +21,10 @@ type BlogOutModel struct {
 	Name      string `json:"shop_name"`
 	NickName  string `json:"user_name"`
 	Content   string `json:"content"`
-	Title     string `json:"title"`      // 标题
-	Liked     int32  `json:"liked"`      // 点赞数量
-	Comments  int32  `json:"comments"`   // 评论数量
-	CreatedAt string `json:"created_at"` // 创建时间
+	Title     string `json:"title"`        // 标题
+	Liked     int32  `json:"liked"`        // 点赞数量
+	Comments  int32  `json:"comments"`     // 评论数量
+	CreatedAt string `json:"created_time"` // 创建时间
 }
 
 type GetBlogInfoReq struct {

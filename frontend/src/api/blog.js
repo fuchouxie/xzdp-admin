@@ -16,7 +16,7 @@ export function getBlogInfo(params = {}) {
   })
 }
 
-export function Remove(params = {}) {
+export function remove(params = {}) {
   return request({
     url: '/blog/Remove',
     method: 'post',
@@ -24,7 +24,7 @@ export function Remove(params = {}) {
   })
 }
 
-export function BatchRemove(params = {}) {
+export function batchRemove(params = {}) {
   return request({
     url: '/blog/BatchRemove',
     method: 'post',

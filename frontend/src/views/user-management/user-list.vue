@@ -199,7 +199,7 @@ export default {
         })
         .catch(() => {})
     },
-    // 显示编辑界面
+    // 显示详情界面
     userDetail(index, row) {
       this.$router.push('/user/userDetail/' + row.id)
     },
