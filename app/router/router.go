@@ -25,4 +25,6 @@ func setupRouter(e *gin.Engine) {
 	myGin.SetupRouterOfController(e, "/voucher/", voucherController)
 	orderController := new(controller.OrderController)
 	myGin.SetupRouterOfController(e, "/order/", orderController)
+	blogController := new(controller.BlogController)
+	myGin.SetupRouterOfController(e, "/blog/", blogController)
 }
