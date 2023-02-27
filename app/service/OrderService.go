@@ -18,6 +18,9 @@ func (s *OrderService) OrderList(input dto.OrderListReq) (dto.OrderListRes, erro
 		Status:  input.Status,
 	}
 	db = db.Model(&entity.TbVoucherOrder{}).Where(&query)
+	db = db.Joins("left join tb_user user on user_id = user.id")
+	db = db.Joins("left join tb_voucher voucher on voucher_id = voucher.id")
+	db = db.Select("tb_voucher_order.*, user.nick_name, voucher.title")
 	if err := db.Scopes(myGrom.Paginate(input.PageLimit)).Find(&res.List).Limit(-1).Offset(-1).Count(&res.Total).Error; err != nil {
 		return res, err
 	}
@@ -27,7 +30,11 @@ func (s *OrderService) OrderList(input dto.OrderListReq) (dto.OrderListRes, erro
 func (s *OrderService) GetOrder(input dto.GetOrderInfoReq) (dto.OrderOutModel, error) {
 	db := myGrom.Db
 	var res dto.OrderOutModel
-	if err := db.Model(entity.TbVoucherOrder{}).Where("id", input.ID).Find(&res).Error; err != nil {
+	db = db.Model(entity.TbVoucherOrder{})
+	db = db.Joins("left join tb_user user on user_id = user.id")
+	db = db.Joins("left join tb_voucher voucher on voucher_id = voucher.id")
+	db = db.Select("tb_voucher_order.*, user.nick_name, voucher.title")
+	if err := db.Where("tb_voucher_order.id", input.ID).Find(&res).Error; err != nil {
 		return res, err
 	}
 	return res, nil

@@ -46,6 +46,8 @@
 			</el-table-column>
       <el-table-column prop="gender" label="性别" :formatter="genderFormat" width="120" >
       </el-table-column>
+      <el-table-column prop="gender" label="性别" :formatter="genderFormat" width="120" >
+      </el-table-column>
 			<el-table-column prop="level" label="会员等级" min-width="120" >
 			</el-table-column>
       <el-table-column prop="created_time" label="注册时间" min-width="160">

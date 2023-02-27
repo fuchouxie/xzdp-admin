@@ -112,7 +112,7 @@ export const constantRouterMap = [
       {
         path: 'orderList',
         name: 'orderList',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/order-management/order-list'),
         meta: { title: '订单列表' }
       }
     ]
