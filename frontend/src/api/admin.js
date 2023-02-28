@@ -7,6 +7,15 @@ export function getAdminList(params) {
     params: params
   })
 }
+
+export function getAdminInfo(params) {
+  return request({
+    url: '/admin/getAdminInfo',
+    method: 'get',
+    params: params
+  })
+}
+
 export function removeAdminUser(params) {
   return request({
     url: '/admin/Remove',
@@ -28,9 +37,10 @@ export function updateAdminUser(params) {
     params: params
   })
 }
-export function addAdminUser(params) {
+
+export function changePassword(params) {
   return request({
-    url: '/admin/Register',
+    url: '/admin/changePassword',
     method: 'post',
     params: params
   })

@@ -137,6 +137,7 @@ export const constantRouterMap = [
       {
         path: 'blogDetail/:id?',
         name: 'blogDetail',
+        hidden: true,
         component: () => import('@/views/blog-management/blog-detail'),
         meta: { title: '笔记详情' }
       }
@@ -175,7 +176,7 @@ export const constantRouterMap = [
       {
         path: 'updatePwd',
         name: 'updatePwd',
-        component: () => import('@/views/form/BaseForm'),
+        component: () => import('@/views/persional/change-password'),
         meta: { title: '修改密码' }
       }
     ]

@@ -62,3 +62,7 @@ type RemoveAdminReq struct {
 type BatchRemoveAdminReq struct {
 	IDS string `json:"ids" form:"ids"  required:"true"`
 }
+
+type GetAdminInfoReq struct {
+	ID int32 `json:"id" form:"id" required:"true"`
+}

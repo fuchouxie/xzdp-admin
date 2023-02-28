@@ -133,3 +133,12 @@ func (s *AdminService) BatchRemove(input dto.BatchRemoveAdminReq) error {
 	}
 	return nil
 }
+
+func (s *AdminService) GetAdminUser(input dto.GetAdminInfoReq) (dto.AdminListOutModel, error) {
+	db := myGrom.Db
+	var res dto.AdminListOutModel
+	if err := db.Model(&entity.AdminUser{}).Where("id", input.ID).Find(&res).Error; err != nil {
+		return res, err
+	}
+	return res, nil
+}
