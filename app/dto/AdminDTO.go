@@ -50,7 +50,6 @@ type UpdateAdminReq struct {
 }
 
 type ChangePasswordReq struct {
-	Username    string `json:"username" form:"username" required:"true"`
 	OldPassword string `json:"old_password" form:"old_password" required:"true"`
 	NewPassword string `json:"new_password" form:"new_password" required:"true"`
 }
@@ -64,5 +63,5 @@ type BatchRemoveAdminReq struct {
 }
 
 type GetAdminInfoReq struct {
-	ID int32 `json:"id" form:"id" required:"true"`
+	ID int64 `json:"id" form:"id" required:"true"`
 }

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"xzdp-admin/app/dto"
 	"xzdp-admin/app/service"
@@ -8,6 +9,7 @@ import (
 )
 
 type AdminController struct {
+	Controller
 	AdminService *service.AdminService
 }
 
@@ -17,7 +19,7 @@ func (c *AdminController) Login(ctx *gin.Context) {
 		myGin.Failure(ctx, err.Error())
 		return
 	}
-	res, err := c.AdminService.Login(req)
+	res, err := c.AdminService.Login(ctx, req)
 	if err != nil {
 		myGin.Failure(ctx, err.Error())
 		return
@@ -76,12 +78,17 @@ func (c *AdminController) Update(ctx *gin.Context) {
 }
 
 func (c *AdminController) ChangePassword(ctx *gin.Context) {
+	if err := c.CallBefore(ctx); err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
 	var req dto.ChangePasswordReq
 	if err := ctx.ShouldBind(&req); err != nil {
 		myGin.Failure(ctx, err.Error())
 		return
 	}
-	err := c.AdminService.ChangePassword(req)
+	fmt.Println("", c.UserInfo)
+	err := c.AdminService.ChangePasswordV2(c.UserInfo, req)
 	if err != nil {
 		myGin.Failure(ctx, err.Error())
 		return
@@ -115,4 +122,12 @@ func (c *AdminController) BatchRemove(ctx *gin.Context) {
 		return
 	}
 	myGin.Success(ctx, nil)
+}
+
+func (c *AdminController) GetAdminInfo(ctx *gin.Context) {
+	if err := c.CallBefore(ctx); err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	myGin.Success(ctx, c.UserInfo)
 }
