@@ -10,7 +10,7 @@ export function getAdminList(params) {
 
 export function getAdminInfo(params) {
   return request({
-    url: '/admin/getAdminInfo',
+    url: '/admin/GetAdminInfo',
     method: 'get',
     params: params
   })
@@ -40,7 +40,7 @@ export function updateAdminUser(params) {
 
 export function changePassword(params) {
   return request({
-    url: '/admin/changePassword',
+    url: '/admin/ChangePassword',
     method: 'post',
     params: params
   })

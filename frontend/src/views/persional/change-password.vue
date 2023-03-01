@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { changePassword } from "@/api/admin";
+import {changePassword, getAdminInfo} from "@/api/admin";
 export default {
   data() {
     var checkPassword = (rule, value, callback) => {
@@ -111,7 +111,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           changePassword(this.form).then((res) => {
-            if (res.code === 1) {
+            if (res.code === "200") {
               this.$message({
                 message: "密码修改成功",
                 type: "success",
@@ -127,7 +127,15 @@ export default {
         }
       });
     },
+    getUserName(){
+      getAdminInfo().then((res) =>{
+        this.user.username = res.data.username
+      })
+    }
   },
+  mounted() {
+    this.getUserName()
+  }
 };
 </script>
 <style lang="scss" scoped>
