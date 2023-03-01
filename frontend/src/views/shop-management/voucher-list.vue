@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="filters" @submit.native.prevent>
         <el-form-item label="商店:">
-          <el-input v-model="filters.shop_id" placeholder="请输入商店id"></el-input>
+          <el-input v-model="filters.shop_name" placeholder="请输入商店名称"></el-input>
         </el-form-item>
         <el-form-item label="标题:">
           <el-input v-model="filters.title" placeholder="请输入标题"></el-input>
@@ -127,7 +127,7 @@ export default {
       },
       dialogFormVisible: false,
       filters: {
-        shop_id: '',
+        shop_name: '',
         status:'',
         title:'',
         type:''
@@ -173,10 +173,9 @@ export default {
       this.getVouchers()
 
     },
-    // 获取用户列表
     getVouchers() {
       const para = {
-        shop_id: this.filters.shop_id,
+        shop_name: this.filters.shop_name,
         title:this.filters.title,
         status:this.filters.status,
         type : this.filters.type,

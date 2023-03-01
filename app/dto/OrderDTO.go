@@ -5,9 +5,10 @@ import (
 )
 
 type OrderListReq struct {
-	UserID  int64 `form:"user_id" json:"user_id,omitempty"`
-	PayType int32 `form:"pay_type" json:"pay_type,omitempty"`
-	Status  int32 `form:"status" json:"status,omitempty"`
+	UserID   int64  `form:"user_id" json:"user_id,omitempty"`
+	UserName string `form:"nick_name" json:"nick_name,omitempty"`
+	PayType  int32  `form:"pay_type" json:"pay_type,omitempty"`
+	Status   int32  `form:"status" json:"status,omitempty"`
 	myGrom.PageLimit
 }
 

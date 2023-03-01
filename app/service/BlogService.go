@@ -25,6 +25,12 @@ func (s *BlogService) BlogList(input dto.BlogListReq) (dto.BlogListRes, error) {
 	if input.Title != "" {
 		db = db.Where("title like ?", "%"+input.Title+"%")
 	}
+	if input.UserName != "" {
+		db = db.Where("user.nick_name like ?", "%"+input.UserName+"%")
+	}
+	if input.ShopName != "" {
+		db = db.Where("shop.name like ?", "%"+input.ShopName+"%")
+	}
 	if err := db.Scopes(myGrom.Paginate(input.PageLimit)).Find(&res.List).Limit(-1).Offset(-1).Count(&res.Total).Error; err != nil {
 		return res, err
 	}

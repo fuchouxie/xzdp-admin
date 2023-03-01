@@ -4,7 +4,7 @@
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true" :model="filters" @submit.native.prevent>
 				<el-form-item label="用户名:">
-					<el-input v-model="filters.user_id" placeholder="请输入用户"></el-input>
+					<el-input v-model="filters.nick_name" placeholder="请输入用户"></el-input>
 				</el-form-item>
         <el-form-item label="订单状态:">
           <el-select v-model = "filters.status" placeholder="请选择" clearable>
@@ -73,7 +73,7 @@ export default {
     return {
       dialogStatus: '',
       filters: {
-        user_id: '',
+        nick_name: '',
         pay_type:'',
         status:''
       },
@@ -113,7 +113,7 @@ export default {
         page_size:this.page_size,
         pay_type: this.filters.pay_type,
         status: this.filters.status,
-        user_id: this.filters.user_id,
+        nick_name: this.filters.nick_name,
       }
       getOrderList(para).then(res => {
         console.log("查看记录", res)

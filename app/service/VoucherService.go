@@ -24,6 +24,9 @@ func (s *VoucherService) VoucherList(input dto.VoucherListReq) (dto.VoucherListR
 	if input.Title != "" {
 		db = db.Where("title like ?", "%"+input.Title+"%")
 	}
+	if input.ShopName != "" {
+		db = db.Where("shop.name like ?", "%"+input.ShopName+"%")
+	}
 	if err := db.Scopes(myGrom.Paginate(input.PageLimit)).Find(&res.List).Limit(-1).Offset(-1).Count(&res.Total).Error; err != nil {
 		return res, err
 	}

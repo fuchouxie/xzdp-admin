@@ -4,13 +4,13 @@
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true" :model="filters" @submit.native.prevent>
 				<el-form-item label="用户:">
-					<el-input v-model="filters.user_id" placeholder="请输入用户名"></el-input>
+					<el-input v-model="filters.nick_name" placeholder="请输入用户名"></el-input>
 				</el-form-item>
         <el-form-item label="商店:">
-          <el-input v-model="filters.shop_id" placeholder="请输入名称"></el-input>
+          <el-input v-model="filters.shop_name" placeholder="请输入名称"></el-input>
         </el-form-item>
         <el-form-item label="标题:">
-          <el-input v-model="filters.title" placeholder="请输入联系方式"></el-input>
+          <el-input v-model="filters.title" placeholder="请输入标题"></el-input>
         </el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getBlogs">查询</el-button>
@@ -68,8 +68,8 @@ export default {
       dialogStatus: '',
       filters: {
         title: '',
-        shop_id: '',
-        user_id:'',
+        shop_name: '',
+        nick_name:'',
       },
       blogs: [],
       total: 0,
@@ -89,9 +89,9 @@ export default {
       const para = {
         page: this.page,
         page_size:this.page_size,
-        shop_id: this.filters.shop_id,
+        shop_name: this.filters.shop_name,
         title: this.filters.title,
-        user_id: this.filters.user_id,
+        nick_name: this.filters.nick_name,
       }
       getBlogList(para).then(res => {
         console.log("查看记录", res)

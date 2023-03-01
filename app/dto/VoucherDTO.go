@@ -3,10 +3,11 @@ package dto
 import "xzdp-admin/system/core/myGrom"
 
 type VoucherListReq struct {
-	ShopID int64  `json:"shop_id" form:"shop_id"` // 商铺id
-	Status int32  `json:"status" form:"status"`   // 1,上架; 2,下架; 3,过期
-	Title  string `json:"title" form:"title"`     // 代金券标题
-	Type   int32  `json:"type" form:"type"`       //1.普通；2.秒杀
+	ShopID   int64  `json:"shop_id" form:"shop_id"` // 商铺id
+	ShopName string `json:"shop_name" form:"shop_name"`
+	Status   int32  `json:"status" form:"status"` // 1,上架; 2,下架; 3,过期
+	Title    string `json:"title" form:"title"`   // 代金券标题
+	Type     int32  `json:"type" form:"type"`     //1.普通；2.秒杀
 	myGrom.PageLimit
 }
 

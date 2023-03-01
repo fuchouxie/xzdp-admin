@@ -21,6 +21,9 @@ func (s *OrderService) OrderList(input dto.OrderListReq) (dto.OrderListRes, erro
 	db = db.Joins("left join tb_user user on user_id = user.id")
 	db = db.Joins("left join tb_voucher voucher on voucher_id = voucher.id")
 	db = db.Select("tb_voucher_order.*, user.nick_name, voucher.title")
+	if input.UserName != "" {
+		db = db.Where("user.nick_name like ?", "%"+input.UserName+"%")
+	}
 	if err := db.Scopes(myGrom.Paginate(input.PageLimit)).Find(&res.List).Limit(-1).Offset(-1).Count(&res.Total).Error; err != nil {
 		return res, err
 	}

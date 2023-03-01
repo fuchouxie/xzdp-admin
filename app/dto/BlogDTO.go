@@ -3,9 +3,11 @@ package dto
 import "xzdp-admin/system/core/myGrom"
 
 type BlogListReq struct {
-	ShopID int64  `json:"shop_id" form:"shop_id"` // 商户id
-	UserID int64  `json:"user_id" form:"user_id"` // 用户id
-	Title  string `json:"title" form:"title"`     // 标题
+	ShopID   int64  `json:"shop_id" form:"shop_id"`     // 商户id
+	UserID   int64  `json:"user_id" form:"user_id"`     // 用户id
+	UserName string `json:"nick_name" form:"nick_name"` // 用户id
+	ShopName string `json:"shop_name" form:"shop_name"` // 用户id
+	Title    string `json:"title" form:"title"`         // 标题
 	myGrom.PageLimit
 }
 
