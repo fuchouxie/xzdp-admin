@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/login'
+import { login, logout, getInfo, codeLogin } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import {
   setStore,
@@ -73,6 +73,20 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
+          const data = response
+          setToken(data.token)
+          commit('SET_TOKEN', data.token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    //验证码登陆
+    CodeLogin({ commit }, userInfo) {
+      return new Promise((resolve, reject) => {
+        codeLogin(userInfo.phone, userInfo.code).then(response => {
           const data = response
           setToken(data.token)
           commit('SET_TOKEN', data.token)

@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"math/rand"
+	"time"
 	"xzdp-admin/app/dto"
 	"xzdp-admin/app/gen/dal/entity"
 	"xzdp-admin/system/core/myGrom"
@@ -12,6 +14,33 @@ import (
 )
 
 type AdminService struct {
+}
+
+func (s *AdminService) Code(ctx *gin.Context, input dto.CodeReq) (string, error) {
+	db := myGrom.Db
+	var adminUser entity.AdminUser
+	if err := db.Model(&entity.AdminUser{}).Where("phone", input.Phone).Find(&adminUser).Error; err != nil {
+		return "手机号有误请重试", err
+	}
+	code := fmt.Sprintf("%04v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(10000))
+	adminUser.Code = code
+	if err := db.Model(&entity.AdminUser{}).Where("id", adminUser.ID).Updates(&adminUser).Error; err != nil {
+		return "", err
+	}
+	return code, nil
+}
+
+func (s *AdminService) CodeLogin(ctx *gin.Context, input dto.CodeLoginReq) error {
+	db := myGrom.Db
+	var adminUser entity.AdminUser
+	if err := db.Model(&entity.AdminUser{}).Where("phone", input.Phone).Find(&adminUser).Error; err != nil {
+		return err
+	}
+	if input.Code != adminUser.Code {
+		return errors.New("验证码有误")
+	}
+	mySession.SaveSession(ctx, "userId", fmt.Sprintf("%d", adminUser.ID))
+	return nil
 }
 
 func (s *AdminService) Login(ctx *gin.Context, input dto.LoginReq) (bool, error) {
@@ -28,7 +57,6 @@ func (s *AdminService) Login(ctx *gin.Context, input dto.LoginReq) (bool, error)
 	if !str.PasswordVerify(input.Password, adminUser.Password) {
 		return false, errors.New("密码错误，请重试")
 	}
-	fmt.Println(adminUser.ID)
 	//3.保存用户id到session
 	mySession.SaveSession(ctx, "userId", fmt.Sprintf("%d", adminUser.ID))
 	return true, nil
@@ -38,7 +66,7 @@ func (s *AdminService) Register(input dto.RegisterReq) error {
 	db := myGrom.Db
 	adminUser := entity.AdminUser{}
 	//1.校验用户是否已存在
-	if err := db.Model(&entity.AdminUser{}).Where("username", input.Username).Find(&adminUser).Error; err != nil {
+	if err := db.Model(&entity.AdminUser{}).Unscoped().Where("username", input.Username).Find(&adminUser).Error; err != nil {
 		return err
 	}
 	if adminUser.ID != 0 {

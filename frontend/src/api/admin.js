@@ -45,3 +45,11 @@ export function changePassword(params) {
     params: params
   })
 }
+
+export function addAdminUser(params) {
+  return request({
+    url: '/admin/Register',
+    method: 'post',
+    params: params
+  })
+}

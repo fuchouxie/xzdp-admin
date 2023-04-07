@@ -27,6 +27,34 @@ func (c *AdminController) Login(ctx *gin.Context) {
 	myGin.Success(ctx, res)
 }
 
+func (c *AdminController) Code(ctx *gin.Context) {
+	var req dto.CodeReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	res, err := c.AdminService.Code(ctx, req)
+	if err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	myGin.Success(ctx, res)
+}
+
+func (c *AdminController) CodeLogin(ctx *gin.Context) {
+	var req dto.CodeLoginReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	err := c.AdminService.CodeLogin(ctx, req)
+	if err != nil {
+		myGin.Failure(ctx, err.Error())
+		return
+	}
+	myGin.Success(ctx, nil)
+}
+
 func (c *AdminController) Logout(ctx *gin.Context) {
 	myGin.Success(ctx, nil)
 }

@@ -25,3 +25,25 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function code(phone) {
+  return request({
+    url: '/admin/Code',
+    method: 'post',
+    data : phone
+  })
+}
+
+export function codeLogin(phone,code) {
+  return request({
+    url: '/admin/CodeLogin',
+    method: 'post',
+    data: {
+      phone,
+      code
+    }
+  })
+}
+
+
+

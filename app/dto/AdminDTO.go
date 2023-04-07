@@ -6,6 +6,14 @@ type LoginReq struct {
 	Username string `json:"username" form:"username" required:"true"`
 	Password string `json:"password" form:"password" required:"true" `
 }
+type CodeReq struct {
+	Phone string `json:"phone" form:"phone"`
+}
+
+type CodeLoginReq struct {
+	Phone string `json:"phone" form:"phone"`
+	Code  string `json:"code" form:"code"`
+}
 
 type RegisterReq struct {
 	Username string `json:"username" form:"username" required:"true"`

@@ -20,11 +20,14 @@
 </template>
 
 <script>
+import {getAdminList} from "@/api/admin";
+
 const MSGINIT = '发送验证码'
 // const MSGERROR = '验证码发送失败'
 const MSGSCUCCESS = '${time}秒后重发'
 const MSGTIME = 60
 import { isvalidatemobile } from '@/utils/validate'
+import {code, codeLogin} from "@/api/login";
 export default {
   name: 'codelogin',
   data() {
@@ -47,7 +50,7 @@ export default {
       msgTime: MSGTIME,
       msgKey: false,
       loginForm: {
-        phone: '17547400800',
+        phone: '',
         code: ''
       },
       loginRules: {
@@ -62,26 +65,44 @@ export default {
   },
   props: [],
   methods: {
+    // handleSend() {
+    //
+    //   if (this.msgKey) return
+    //   this.msgText = MSGSCUCCESS.replace('${time}', this.msgTime)
+    //   this.msgKey = true
+    //   const time = setInterval(() => {
+    //     this.msgTime--
+    //     this.msgText = MSGSCUCCESS.replace('${time}', this.msgTime)
+    //     if (this.msgTime === 0) {
+    //       this.msgTime = MSGTIME
+    //       this.msgText = MSGINIT
+    //       this.msgKey = false
+    //       clearInterval(time)
+    //     }
+    //   }, 1000)
+    // },
     handleSend() {
-      if (this.msgKey) return
-      this.msgText = MSGSCUCCESS.replace('${time}', this.msgTime)
-      this.msgKey = true
-      const time = setInterval(() => {
-        this.msgTime--
-        this.msgText = MSGSCUCCESS.replace('${time}', this.msgTime)
-        if (this.msgTime === 0) {
-          this.msgTime = MSGTIME
-          this.msgText = MSGINIT
-          this.msgKey = false
-          clearInterval(time)
-        }
-      }, 1000)
+      const para = {
+        phone: this.loginForm.phone,
+      }
+      code(para).then(res => {
+        console.log("验证码:", res.data)
+      })
     },
+    // handleLogin() {
+    //   this.$refs.loginForm.validate(valid => {
+    //     if (valid) {
+    //       this.$store.dispatch('Login', this.loginForm).then(res => {
+    //         this.$router.push({ path: '/' })
+    //       })
+    //     }
+    //   })
+    // }
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch('Login', this.loginForm).then(res => {
-            this.$router.push({ path: '/' })
+          this.$store.dispatch('CodeLogin', this.loginForm).then(res => {
+            this.$router.push({ path: '/dashboard/dashboard' })
           })
         }
       })
